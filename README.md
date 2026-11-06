@@ -2,14 +2,18 @@
 
 ### Lean-AI-Dev Workshop | Plan → Architecture → Execute
 
+> **START HERE →** `git checkout cycle-1`
+>
+> You are viewing the `cycle-3` reference solution. `main` mirrors `cycle-1`.
+
 Welcome to the **TransAlpine Logistics** engineering strike team. Today you are
 not a code typist; you are the **system architect and reviewer in chief**. The
 workshop teaches organized AI-assisted development: write a plan, draw the
 architecture, execute the planned slice, review the running app, then re-plan.
 
-The repository is deliberately split into three cumulative branches and three
-growing data stages. Verification is by manual demo checklist, not an automated
-test suite.
+The repository is deliberately split into three cycle branches plus a `main`
+mirror, and three growing data stages. Verification is by manual demo checklist,
+not an automated test suite.
 
 ---
 
@@ -33,25 +37,31 @@ across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
 
 | Branch | Apps | Data stage | What works |
 |---|---|---|---|
-| `main` | `app_cycle1.py` | Stage 1 | Raw data access, noisy feed, architecture scaffold; `prep.py` is the execution target |
-| `cycle-2` | `app_cycle1.py`, `app_cycle2.py` | Stage 2 | Prepared fleet snapshot and risk alerts |
-| `cycle-3` | all three apps | Stage 3 | Deterministic operator, dispatch orders, decision trail |
+| `cycle-1` | `app_cycle1.py` | Stage 1 | **Start here** — raw data access, noisy feed, architecture scaffold; `prep.py` is the execution target |
+| `main` | `app_cycle1.py` | Stage 1 | Default landing branch; mirrors `cycle-1` |
+| `cycle-2` | `app_cycle1.py`, `app_cycle2.py` | Stage 2 | Reference solution — prepared fleet snapshot and risk alerts |
+| `cycle-3` | all three apps | Stage 3 | Reference solution — deterministic operator and decision trail |
 
-All branches are published. Fork `main`, implement Cycle 1, then switch branches
-to compare the later stages.
+All branches are published. Start on `cycle-1`; `main` mirrors it. Use `cycle-2`
+and `cycle-3` only for comparison.
 
-> **Current branch:** `cycle-3` — the full Cycle 3 reference solution. Run
-> `streamlit run app_cycle3.py` after seeding the database.
+> **Reference solution:** You are on `cycle-3`, the full dispatch-operator
+> solution. Start the workshop on `cycle-1`; `main` mirrors `cycle-1`. To inspect
+> this branch, run `streamlit run app_cycle3.py` after seeding the database.
 
 ---
 
-## Quickstart — Cycle 1
+## Quickstart — Cycle 1 (start on branch `cycle-1`)
+
+> To begin the exercise from this reference branch, run `git checkout cycle-1`
+> first.
 
 Run from the repository root.
 
 ### Windows PowerShell
 
 ```powershell
+git checkout cycle-1
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -62,6 +72,7 @@ streamlit run app_cycle1.py
 ### macOS / Linux
 
 ```bash
+git checkout cycle-1
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -211,7 +222,7 @@ crashing the app.
 
 ```text
 workshop-Thun/
-├── app_cycle1.py             # Cycle 1 entry point (main)
+├── app_cycle1.py             # Cycle 1 entry point (cycle-1 / main)
 ├── app_cycle2.py             # Cycle 2 entry point (cycle-2+)
 ├── app_cycle3.py             # Cycle 3 entry point (cycle-3)
 ├── prep.py                   # Cycle 1 preparation target
@@ -221,7 +232,7 @@ workshop-Thun/
 ├── models.py                 # Pydantic data contracts
 ├── tools.py                  # Deterministic calculations
 ├── ui.py                     # Shared Streamlit rendering
-├── seed_stage1.py            # Stage 1 seed (main)
+├── seed_stage1.py            # Stage 1 seed (cycle-1 / main)
 ├── seed_stage2.py            # Stage 2 seed (cycle-2+)
 ├── seed_stage3.py            # Stage 3 seed (cycle-3)
 ├── init_db.py                # Rebuilds the current stage database

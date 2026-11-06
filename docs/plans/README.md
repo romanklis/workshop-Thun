@@ -17,12 +17,13 @@ no automated test suite.
 
 | Branch | Apps | Data stage | What it demonstrates |
 |---|---|---|---|
-| `main` | `app_cycle1.py` | Stage 1 | Baseline cockpit and the telemetry-preparation task |
-| `cycle-2` | `app_cycle1.py`, `app_cycle2.py` | Stage 2 | Prepared snapshot plus the risk engine |
-| `cycle-3` | all three apps | Stage 3 | Deterministic operator and dispatch decision trail |
+| `cycle-1` | `app_cycle1.py` | Stage 1 | **Start here** — baseline cockpit and telemetry preparation |
+| `main` | `app_cycle1.py` | Stage 1 | Default landing branch; mirrors `cycle-1` |
+| `cycle-2` | `app_cycle1.py`, `app_cycle2.py` | Stage 2 | Reference solution — prepared snapshot plus the risk engine |
+| `cycle-3` | all three apps | Stage 3 | Reference solution — deterministic operator and dispatch trail |
 
-All branches are published. Fork `main`, implement Cycle 1, then compare with
-the later branches.
+All branches are published. Start on `cycle-1`; `main` mirrors it. Compare the
+later branches only after completing the current cycle.
 
 ## Data stages
 

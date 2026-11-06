@@ -108,7 +108,7 @@ Notes:
 
 # Cycle 1: Baseline & Data Preparation
 
-### Branch `main` | App `app_cycle1.py` | Stage 1
+### Branch `cycle-1` | App `app_cycle1.py` | Stage 1
 
 - **Data:** 10 trucks × 4 readings + 2 corrupt packets = 42 rows.
 - **Architecture:** SQLite → `FleetRepository` → `prep.py` → `app_cycle1.py`.
@@ -121,6 +121,7 @@ Notes:
 - The raw feed is intentionally noisy and interleaved.
 - Participants implement the preparation layer; the app shows a clear
   placeholder until they do.
+- Start on branch cycle-1; the default main branch mirrors cycle-1.
 - Open docs/architecture/cycle1.drawio before coding.
 -->
 
