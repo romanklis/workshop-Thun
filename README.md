@@ -186,7 +186,7 @@ python init_db.py
 streamlit run app_cycle3.py
 ```
 
-The branch adds route assignments, deterministic tools, and `operator.py`.
+The branch adds route assignments, deterministic tools, and `dispatch.py`.
 Click **Execute Emergency Triage** to generate `DispatchOrder` rows and inspect
 the decision trail: temperature rate, runway, nearest depot, travel time, and
 margin.
@@ -206,7 +206,7 @@ workshop-Thun/
 ├── app_cycle3.py             # Cycle 3 entry point (cycle-3)
 ├── prep.py                   # Cycle 1 preparation target
 ├── engine.py                 # Cycle 2 risk target
-├── operator.py               # Cycle 3 dispatch target (cycle-3)
+├── dispatch.py               # Cycle 3 dispatch target (cycle-3)
 ├── repository.py             # SQLite access layer
 ├── models.py                 # Pydantic data contracts
 ├── tools.py                  # Deterministic calculations
