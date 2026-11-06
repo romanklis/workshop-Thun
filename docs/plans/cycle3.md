@@ -35,7 +35,7 @@ Flow: SQLite → `FleetRepository` → `prep.py` → `engine.py` → `dispatch.p
 ## Connection points
 
 - `repository.get_all_assignments()` returns raw assignment rows.
-- `operator.build_dispatch_order(alert, latest, history, assignment)` returns a
+- `dispatch.build_dispatch_order(alert, latest, history, assignment)` returns a
   `DispatchOrder`.
 - `tools.calculate_temp_rate_per_min()` and `estimate_travel_minutes()` keep
   the math deterministic.
@@ -57,7 +57,7 @@ Flow: SQLite → `FleetRepository` → `prep.py` → `engine.py` → `dispatch.p
 
 1. Read this plan and open the Cycle 3 architecture layout.
 2. Add `TruckAssignment`, assignment access, and deterministic tools.
-3. Implement `operator.build_dispatch_order()`.
+3. Implement `dispatch.build_dispatch_order()` on `cycle-3`.
 4. Add `app_cycle3.py` and the dispatch-table helper.
 5. Run `python init_db.py`, then `streamlit run app_cycle3.py`.
 6. Click **Execute Emergency Triage** and review the decision trail.
