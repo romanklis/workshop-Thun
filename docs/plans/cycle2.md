@@ -26,7 +26,7 @@ Additions over Stage 1:
 Open `docs/architecture/cycle2.drawio`.
 
 Flow: SQLite → `FleetRepository` → `prep.py` → `engine.py` → `app_cycle2.py`
-→ `ui.py`. `operator.py` remains a dashed future layer.
+→ `ui.py`. `dispatch.py` remains a dashed future layer.
 
 ## Connection points
 
@@ -34,7 +34,7 @@ Flow: SQLite → `FleetRepository` → `prep.py` → `engine.py` → `app_cycle2
 - `engine.assess_fleet_risk(readings, current_time_iso)` returns one
   `TriageAlert` per valid truck.
 - `app_cycle2.py` renders the prepared snapshot and the alert table.
-- Do not call `operator.py` in Cycle 2.
+- Do not call `dispatch.py` in Cycle 2.
 
 ## Risk rule table
 

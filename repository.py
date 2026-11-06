@@ -75,3 +75,10 @@ class FleetRepository:
             ORDER BY route_id
             """
         )
+
+    def get_all_assignments(self) -> list[dict]:
+        """Return route and commercial context for assigned trucks."""
+
+        return self._fetch_all(
+            "SELECT * FROM truck_assignments ORDER BY truck_id"
+        )

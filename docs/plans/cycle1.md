@@ -29,7 +29,7 @@ Key storylines:
 Open `docs/architecture/cycle1.drawio`.
 
 Flow: SQLite → `FleetRepository` → `prep.py` → `app_cycle1.py` → `ui.py`.
-`engine.py` and `operator.py` are shown as dashed future layers; they are not
+`engine.py` and `dispatch.py` are shown as dashed future layers; they are not
 connected in this cycle.
 
 ## Connection points
@@ -38,7 +38,7 @@ connected in this cycle.
 - `prep.build_fleet_snapshot(readings, current_time_iso)` must return
   `list[FleetSnapshotRow]`.
 - `app_cycle1.py` calls the preparation function and displays the result.
-- Do not call `engine.py` or `operator.py` in Cycle 1.
+- Do not call `engine.py` or `dispatch.py` in Cycle 1.
 
 ## Execute
 

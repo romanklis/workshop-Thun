@@ -7,12 +7,13 @@ from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
-import seed_stage2
+import seed_stage3
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "data" / "logistics.db"
 
 SCHEMA = """
+DROP TABLE IF EXISTS truck_assignments;
 DROP TABLE IF EXISTS sensor_telemetry;
 DROP TABLE IF EXISTS routes;
 DROP TABLE IF EXISTS hubs;
@@ -44,6 +45,15 @@ CREATE TABLE sensor_telemetry (
     battery_pct REAL NOT NULL,
     signal_status TEXT NOT NULL
 );
+
+CREATE TABLE truck_assignments (
+    truck_id TEXT PRIMARY KEY,
+    route_id TEXT NOT NULL,
+    destination_hub TEXT NOT NULL,
+    planned_arrival TEXT NOT NULL,
+    cargo_value_chf REAL NOT NULL,
+    priority TEXT NOT NULL
+);
 """
 
 
@@ -52,17 +62,18 @@ def init_db() -> None:
 
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc)
-    telemetry_rows = seed_stage2.generate(now)
+    telemetry_rows = seed_stage3.generate(now)
+    assignment_rows = seed_stage3.generate_assignments(now)
 
     with closing(sqlite3.connect(DB_PATH)) as connection:
         connection.executescript(SCHEMA)
         connection.executemany(
             "INSERT INTO hubs VALUES (?, ?, ?, ?, ?)",
-            seed_stage2.HUBS,
+            seed_stage3.HUBS,
         )
         connection.executemany(
             "INSERT INTO routes VALUES (?, ?, ?, ?, ?)",
-            seed_stage2.ROUTES,
+            seed_stage3.ROUTES,
         )
         connection.executemany(
             """
@@ -73,12 +84,22 @@ def init_db() -> None:
             """,
             telemetry_rows,
         )
+        connection.executemany(
+            """
+            INSERT INTO truck_assignments
+                (truck_id, route_id, destination_hub, planned_arrival,
+                 cargo_value_chf, priority)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            assignment_rows,
+        )
         connection.commit()
 
     print(
-        f"Seeded {DB_PATH} with {len(seed_stage2.HUBS)} hubs, "
-        f"{len(seed_stage2.ROUTES)} routes, "
-        f"{len(telemetry_rows)} telemetry rows."
+        f"Seeded {DB_PATH} with {len(seed_stage3.HUBS)} hubs, "
+        f"{len(seed_stage3.ROUTES)} routes, "
+        f"{len(telemetry_rows)} telemetry rows, "
+        f"{len(assignment_rows)} assignments."
     )
 
 

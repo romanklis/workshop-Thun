@@ -40,8 +40,8 @@ across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
 All branches are published. Fork `main`, implement Cycle 1, then switch branches
 to compare the later stages.
 
-> **Current branch:** `cycle-2` — the Cycle 2 reference solution. Run
-> `streamlit run app_cycle2.py` after seeding the database.
+> **Current branch:** `cycle-3` — the full Cycle 3 reference solution. Run
+> `streamlit run app_cycle3.py` after seeding the database.
 
 ---
 
@@ -82,6 +82,16 @@ streamlit run app_cycle2.py
 `prep.py` and `engine.py` are already implemented here. Read
 `docs/plans/cycle2.md` and `docs/architecture/cycle2.drawio` to review what was
 executed.
+
+### Cycle 3 quickstart on this branch
+
+```bash
+python init_db.py
+streamlit run app_cycle3.py
+```
+
+`dispatch.py`, `tools.py`, and the route assignments are implemented on this
+branch. Read `docs/plans/cycle3.md` and `docs/architecture/cycle3.drawio`.
 
 ---
 
@@ -186,7 +196,7 @@ python init_db.py
 streamlit run app_cycle3.py
 ```
 
-The branch adds route assignments, deterministic tools, and `operator.py`.
+The branch adds route assignments, deterministic tools, and `dispatch.py`.
 Click **Execute Emergency Triage** to generate `DispatchOrder` rows and inspect
 the decision trail: temperature rate, runway, nearest depot, travel time, and
 margin.
@@ -206,7 +216,7 @@ workshop-Thun/
 ├── app_cycle3.py             # Cycle 3 entry point (cycle-3)
 ├── prep.py                   # Cycle 1 preparation target
 ├── engine.py                 # Cycle 2 risk target
-├── operator.py               # Cycle 3 dispatch target (cycle-3)
+├── dispatch.py               # Cycle 3 dispatch target (cycle-3)
 ├── repository.py             # SQLite access layer
 ├── models.py                 # Pydantic data contracts
 ├── tools.py                  # Deterministic calculations

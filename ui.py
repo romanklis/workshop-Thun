@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
-from models import FleetSnapshotRow, Hub, TriageAlert
+from models import DispatchOrder, FleetSnapshotRow, Hub, TriageAlert
 
 
 def render_header(cycle: str, stage: int, architecture_path: str) -> None:
@@ -70,6 +70,27 @@ def render_alerts(alerts: list[TriageAlert]) -> None:
         return
     table = pd.DataFrame([alert.model_dump() for alert in alerts])
     st.dataframe(table, use_container_width=True, hide_index=True)
+
+
+def render_dispatch(
+    orders: list[DispatchOrder],
+    trail: list[dict],
+) -> None:
+    if not orders:
+        st.info("No critical incident requires dispatch.")
+        return
+    st.dataframe(
+        pd.DataFrame([order.model_dump() for order in orders]),
+        use_container_width=True,
+        hide_index=True,
+    )
+    if trail:
+        st.caption("Decision trail")
+        st.dataframe(
+            pd.DataFrame(trail),
+            use_container_width=True,
+            hide_index=True,
+        )
 
 
 def render_next_cycle(message: str) -> None:

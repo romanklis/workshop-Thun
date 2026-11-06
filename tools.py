@@ -89,3 +89,28 @@ def find_emergency_depots(
         {**hub, "distance_deg": round(distance, 4)}
         for distance, hub in scored
     ]
+
+
+def calculate_temp_rate_per_min(readings: list[dict]) -> float:
+    """Return the temperature slope between the last two readings."""
+
+    if len(readings) < 2:
+        return 0.0
+    ordered = sorted(readings, key=lambda row: parse_iso(row["timestamp"]))
+    first, last = ordered[-2], ordered[-1]
+    minutes = calculate_minutes_silent(first["timestamp"], last["timestamp"])
+    if minutes <= 0:
+        return 0.0
+    return (last["temp_c"] - first["temp_c"]) / minutes
+
+
+def estimate_travel_minutes(
+    distance_deg: float,
+    average_speed_kmh: float = 80.0,
+) -> float:
+    """Convert a rough degree distance into driving minutes."""
+
+    if average_speed_kmh <= 0:
+        return math.inf
+    distance_km = distance_deg * 111.0
+    return distance_km / average_speed_kmh * 60.0
