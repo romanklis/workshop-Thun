@@ -26,7 +26,7 @@ st.set_page_config(
 def main() -> None:
     render_header(
         "Cycle 1 — Baseline & Data Preparation",
-        1,
+        2,
         "docs/architecture/cycle1.drawio",
     )
 
