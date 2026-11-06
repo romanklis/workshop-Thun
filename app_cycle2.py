@@ -50,7 +50,7 @@ def main() -> None:
             ("Active Trucks", len(snapshot)),
             ("Monitored Routes", len(routes)),
             ("High-Risk Incidents", high_risk),
-            ("Data Stage", 2),
+            ("Data Stage", 3),
         ]
     )
 
