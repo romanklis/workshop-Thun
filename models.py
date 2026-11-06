@@ -66,3 +66,14 @@ class DispatchOrder(BaseModel):
     target_hub: str
     estimated_margin_min: float
     executive_summary: str
+
+
+class TruckAssignment(BaseModel):
+    """Future Cycle 3 contract: route and commercial context for one truck."""
+
+    truck_id: str
+    route_id: str
+    destination_hub: str
+    planned_arrival: str
+    cargo_value_chf: float
+    priority: str

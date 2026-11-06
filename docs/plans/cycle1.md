@@ -1,11 +1,14 @@
 # Cycle 1 Plan — Baseline Cockpit & Telemetry Preparation
 
+> **Status:** Completed in Cycle 1. This branch stages Stage 2 data, so
+> `app_cycle1.py` shows 14 trucks. Reference solution: `cycle-1-solution`.
+
 ## Goal
 
 Build a runnable Streamlit cockpit that reads the raw Swiss fleet database and
-prepares interleaved sensor packets for display. This is the starting point for
-the workshop: the data layer works, but the preparation layer is intentionally
-unimplemented.
+prepares interleaved sensor packets for display. The starter branch `cycle-1`
+begins with the preparation layer unimplemented; `prep.py` is implemented on
+this branch.
 
 ## Data stage 1
 

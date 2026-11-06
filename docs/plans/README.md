@@ -13,34 +13,42 @@ no automated test suite.
 4. **Review** — run the app, complete the demo checklist, and compare the branch.
 5. **Re-plan** — record gaps before starting the next cycle.
 
-## Branch map
+## Cycle starters
 
-| Branch | Apps | Data stage | What it demonstrates |
+| Branch | Role | Data stage | What it demonstrates |
 |---|---|---|---|
-| `cycle-1` | `app_cycle1.py` | Stage 1 | **Start here** — baseline cockpit and telemetry preparation |
-| `main` | `app_cycle1.py` | Stage 1 | Default landing branch; mirrors `cycle-1` |
-| `cycle-2` | `app_cycle1.py`, `app_cycle2.py` | Stage 2 | Reference solution — prepared snapshot plus the risk engine |
-| `cycle-3` | all three apps | Stage 3 | Reference solution — deterministic operator and dispatch trail |
+| `cycle-1` | Cycle 1 starter | Stage 1 | Telemetry-preparation exercise |
+| `main` | Default landing mirror | Stage 1 | Mirrors `cycle-1` |
+| `cycle-2` | **Current Cycle 2 starter** | Stage 2 | Risk-engine exercise |
+| `cycle-3` | Next starter | Stage 3 | Dispatch-operator exercise |
 
-All branches are published. Start on `cycle-1`; `main` mirrors it. Compare the
-later branches only after completing the current cycle.
+## Reference solutions
+
+| Branch | Solved exercise |
+|---|---|
+| `cycle-1-solution` | Cycle 1 telemetry preparation |
+| `cycle-2-solution` | Cycle 2 risk engine |
+| `cycle-3-solution` | Cycle 3 dispatch operator |
+
+Start on `cycle-1`; `main` mirrors it. Compare with a solution branch only after
+the matching demo checklist passes.
 
 ## Data stages
 
-| Stage | Routes | Valid trucks | Readings per truck | Corrupt packets | Total packets | Assignments |
-|---|---:|---:|---:|---:|---:|---:|
-| 1 | 4 | 10 | 4 | 2 | 42 | 0 |
-| 2 | 8 | 14 | 8 | 3 | 115 | 0 |
-| 3 | 10 | 16 | 10 | 3 | 163 | 15 |
+| Stage | Routes | Valid trucks | Readings per truck | Corrupt packets | Total packets |
+|---|---:|---:|---:|---:|---:|
+| 1 | 4 | 10 | 4 | 2 | 42 |
+| 2 | 8 | 14 | 8 | 3 | 115 |
 
-The data grows with the application because each cycle needs more context:
-raw snapshots, then telemetry history, then route assignments.
+Stage 1 is completed history. Stage 2 is current. Stage 3 is introduced on
+`cycle-3`.
 
 ## Plans
 
-- `cycle1.md` — baseline cockpit and data preparation.
-- `cycle2.md` — risk engine (available on `cycle-2`).
-- `cycle3.md` — autonomous operator (available on `cycle-3`).
+- `cycle1.md` — completed baseline cockpit and data-preparation plan.
+- `cycle2.md` — current risk-engine plan.
+
+`cycle3.md` is introduced on `cycle-3`.
 
 Before coding, read `AGENTS.md` and the current cycle plan. Keep every Python
 file under 150 lines. Do not add automated tests; finish with the demo checklist.
