@@ -63,6 +63,12 @@ def main() -> None:
     st.subheader("Agentic Triage")
     render_alerts(alerts)
 
+    st.button(
+        "Execute Emergency Triage",
+        disabled=True,
+        help="Unlocked in cycle-3.",
+    )
+
     render_next_cycle(
         "Next: branch `cycle-3` adds route assignments, deterministic tools, "
         "and `app_cycle3.py`."
