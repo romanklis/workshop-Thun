@@ -7,7 +7,7 @@ from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
-import seed_stage1
+import seed_stage2
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "data" / "logistics.db"
@@ -52,17 +52,17 @@ def init_db() -> None:
 
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc)
-    telemetry_rows = seed_stage1.generate(now)
+    telemetry_rows = seed_stage2.generate(now)
 
     with closing(sqlite3.connect(DB_PATH)) as connection:
         connection.executescript(SCHEMA)
         connection.executemany(
             "INSERT INTO hubs VALUES (?, ?, ?, ?, ?)",
-            seed_stage1.HUBS,
+            seed_stage2.HUBS,
         )
         connection.executemany(
             "INSERT INTO routes VALUES (?, ?, ?, ?, ?)",
-            seed_stage1.ROUTES,
+            seed_stage2.ROUTES,
         )
         connection.executemany(
             """
@@ -76,8 +76,8 @@ def init_db() -> None:
         connection.commit()
 
     print(
-        f"Seeded {DB_PATH} with {len(seed_stage1.HUBS)} hubs, "
-        f"{len(seed_stage1.ROUTES)} routes, "
+        f"Seeded {DB_PATH} with {len(seed_stage2.HUBS)} hubs, "
+        f"{len(seed_stage2.ROUTES)} routes, "
         f"{len(telemetry_rows)} telemetry rows."
     )
 

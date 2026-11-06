@@ -40,6 +40,9 @@ across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
 All branches are published. Fork `main`, implement Cycle 1, then switch branches
 to compare the later stages.
 
+> **Current branch:** `cycle-2` — the Cycle 2 reference solution. Run
+> `streamlit run app_cycle2.py` after seeding the database.
+
 ---
 
 ## Quickstart — Cycle 1
@@ -68,6 +71,17 @@ streamlit run app_cycle1.py
 
 `init_db.py` is repeatable. Rerun it before each demo to refresh the relative
 timestamps; otherwise the seeded trucks will look stale.
+
+### Cycle 2 quickstart on this branch
+
+```bash
+python init_db.py
+streamlit run app_cycle2.py
+```
+
+`prep.py` and `engine.py` are already implemented here. Read
+`docs/plans/cycle2.md` and `docs/architecture/cycle2.drawio` to review what was
+executed.
 
 ---
 
@@ -119,6 +133,8 @@ which truck state is current.
 7. Return rows sorted by `truck_id`.
 
 Follow `docs/plans/cycle1.md` and open `docs/architecture/cycle1.drawio`.
+On this branch the Cycle 1 target is already implemented; use
+`app_cycle1.py` to inspect the prepared result.
 
 **Demo checklist:**
 

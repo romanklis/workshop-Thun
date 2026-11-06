@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
-from models import FleetSnapshotRow, Hub
+from models import FleetSnapshotRow, Hub, TriageAlert
 
 
 def render_header(cycle: str, stage: int, architecture_path: str) -> None:
@@ -61,6 +61,14 @@ def render_snapshot(snapshot: list[FleetSnapshotRow]) -> None:
         st.info("No valid telemetry rows available.")
         return
     table = pd.DataFrame([row.model_dump() for row in snapshot])
+    st.dataframe(table, use_container_width=True, hide_index=True)
+
+
+def render_alerts(alerts: list[TriageAlert]) -> None:
+    if not alerts:
+        st.info("No triage alerts available.")
+        return
+    table = pd.DataFrame([alert.model_dump() for alert in alerts])
     st.dataframe(table, use_container_width=True, hide_index=True)
 
 
