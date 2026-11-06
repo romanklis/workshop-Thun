@@ -1,5 +1,8 @@
 # Plan → Architecture → Execute
 
+> **Solution branch:** Cycle 3 is complete. Return to `cycle-3` for the exercise,
+> then compare the implementations.
+
 This workshop is organized as repeated, reviewable cycles. Each cycle starts
 with a written plan and an architecture layout, then executes only that slice.
 Verification is a manual demo checklist; the repository intentionally contains
@@ -28,7 +31,7 @@ no automated test suite.
 |---|---|
 | `cycle-1-solution` | Cycle 1 telemetry preparation |
 | `cycle-2-solution` | Cycle 2 risk engine |
-| `cycle-3-solution` | Cycle 3 dispatch operator |
+| `cycle-3-solution` | **This branch** — Cycle 3 dispatch operator |
 
 Start on `cycle-1`; `main` mirrors it. Compare with a solution branch only after
 the matching demo checklist passes.
@@ -47,7 +50,7 @@ Stages 1 and 2 are completed history. Stage 3 is current.
 
 - `cycle1.md` — completed baseline cockpit and data-preparation plan.
 - `cycle2.md` — completed risk-engine plan.
-- `cycle3.md` — current dispatch-operator plan.
+- `cycle3.md` — completed dispatch-operator plan.
 
 Before coding, read `AGENTS.md` and the current cycle plan. Keep every Python
 file under 150 lines. Do not add automated tests; finish with the demo checklist.

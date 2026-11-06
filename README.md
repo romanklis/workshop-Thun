@@ -2,18 +2,17 @@
 
 ### Lean-AI-Dev Workshop | Plan → Architecture → Execute
 
-> **CYCLE 3 STARTER →** `git checkout cycle-3`
->
-> If you have not completed the earlier cycles, start on `cycle-1`. The
-> completed Cycle 3 answer is on `cycle-3-solution`.
+> **SOLUTION BRANCH — Cycle 3**  
+> This branch contains the completed dispatch operator. For the exercise,
+> return to `cycle-3` and implement `dispatch.evaluate_incident()` yourself.
 
 Welcome to the **TransAlpine Logistics** engineering strike team. Today you are
 not a code typist; you are the **system architect and reviewer in chief**. The
 workshop teaches organized AI-assisted development: write a plan, draw the
 architecture, execute the planned slice, review the running app, then re-plan.
 
-This branch is the **Cycle 3 starter**. Telemetry preparation and the risk
-engine are complete; the dispatch operator is the current exercise.
+This branch is the **Cycle 3 reference solution**. Telemetry preparation, the
+risk engine, and the dispatch operator are all complete.
 
 ---
 
@@ -50,21 +49,21 @@ across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
 |---|---|
 | `cycle-1-solution` | Cycle 1 telemetry preparation |
 | `cycle-2-solution` | Cycle 2 risk engine |
-| `cycle-3-solution` | Cycle 3 dispatch operator |
+| `cycle-3-solution` | **This branch** — Cycle 3 dispatch operator |
 
 Use a solution branch only to compare after the matching demo checklist passes.
 Do not start the workshop there.
 
 ---
 
-## Quickstart — Cycle 3
+## Quickstart — Cycle 3 Solution
 
 Run from the repository root.
 
 ### Windows PowerShell
 
 ```powershell
-git checkout cycle-3
+git checkout cycle-3-solution
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -75,7 +74,7 @@ streamlit run app_cycle3.py
 ### macOS / Linux
 
 ```bash
-git checkout cycle-3
+git checkout cycle-3-solution
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -133,12 +132,12 @@ Reference solution: `cycle-2-solution`.
 
 ---
 
-## Cycle 3 — Current Exercise: Autonomous Operator
+## Cycle 3 — Solution Review: Autonomous Operator
 
-**Goal:** Turn critical risk alerts into verified dispatch orders with an
-auditable decision trail.
+**Goal:** Review how critical risk alerts become verified dispatch orders with
+an auditable decision trail.
 
-**Execution target:** Implement `dispatch.evaluate_incident()` and
+**Completed implementation:** `dispatch.evaluate_incident()` and
 `dispatch.build_dispatch_order()` in `dispatch.py`.
 
 **Operator formula:**
@@ -153,22 +152,22 @@ auditable decision trail.
    `EMERGENCY_DIVERT`.
 8. Include the assignment summary; use `UNASSIGNED` when no assignment exists.
 
-Follow `docs/plans/cycle3.md` and open `docs/architecture/cycle3.drawio`.
+Study `docs/plans/cycle3.md` and open `docs/architecture/cycle3.drawio` to trace
+what was implemented.
 
 **Demo checklist:**
 
 - App launches with `streamlit run app_cycle3.py`.
 - Prepared snapshot shows 16 valid trucks.
 - Critical alerts are visible before dispatch.
-- Clicking **Execute Emergency Triage** produces `DispatchOrder` rows after
-  implementation.
+- Clicking **Execute Emergency Triage** produces `DispatchOrder` rows.
 - `TRUCK-44` routes to `HUB-OLTEN` with a positive margin.
 - `TRUCK-58` is critical but unassigned; its summary shows `UNASSIGNED`.
 - Standard cargo does not produce dispatch orders.
 - The decision trail shows temperature rate, runway, nearest depot, travel,
   margin, and action.
 
-**Reference solution:** branch `cycle-3-solution`.
+**Exercise starter:** branch `cycle-3`.
 
 ---
 
@@ -181,7 +180,7 @@ workshop-Thun/
 ├── app_cycle3.py             # CURRENT: Cycle 3 cockpit
 ├── prep.py                   # COMPLETE: telemetry preparation
 ├── engine.py                 # COMPLETE: risk engine
-├── dispatch.py               # CURRENT TARGET: dispatch operator
+├── dispatch.py               # COMPLETE: dispatch operator
 ├── repository.py             # SQLite access layer
 ├── models.py                 # Contracts, including TruckAssignment
 ├── tools.py                  # Deterministic calculations
@@ -205,12 +204,12 @@ workshop-Thun/
 ## Guardrails
 
 - **Architecture first:** Read the Cycle 3 plan and layout before prompting.
-- **Implement only Cycle 3:** Do not redo preparation or risk logic.
+- **This is a solution branch:** Return to `cycle-3` for the exercise.
 - **Deterministic math:** All numbers come from `tools.py`; no LLM arithmetic.
 - **150-line cap:** Split seed data, UI helpers, or domain logic instead of
   growing monolithic files.
-- **Compare by branch:** After the checklist passes, compare with
-  `cycle-3-solution`. Do not import code from another branch.
+- **Compare by branch:** Use `git diff cycle-3..cycle-3-solution` to review the
+  answer. Do not import code from another branch.
 - **No automated tests:** Verify with the manual demo checklist and architecture
   review. Do not add pytest or CI.
 
@@ -237,7 +236,7 @@ workshop-Thun/
 | PowerShell blocks activation | Run `Set-ExecutionPolicy -Scope Process Bypass`, then activate again. |
 | Dashboard shows stale times | Rerun `python init_db.py` and refresh the page. |
 | Streamlit command not found | Activate the virtual environment or run `python -m streamlit run app_cycle3.py`. |
-| Emergency Operator shows the target placeholder | Implement `dispatch.evaluate_incident()`; compare with `cycle-3-solution` afterward. |
+| Emergency Operator shows no orders | Rerun `python init_db.py` and refresh the page. |
 
 The slide-by-slide workshop outline is in `docs/slides.md`. Render it with Marp
 for 16:9 output, or read it as plain Markdown.

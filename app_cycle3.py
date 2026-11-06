@@ -68,8 +68,8 @@ def main() -> None:
 
     st.subheader("Emergency Operator")
     st.caption(
-        "Execution target: dispatch.evaluate_incident(). "
-        "Reference answer: branch `cycle-3-solution`."
+        "Completed implementation: dispatch.evaluate_incident(). "
+        "This branch is the Cycle 3 reference solution."
     )
     if st.button("Execute Emergency Triage"):
         try:

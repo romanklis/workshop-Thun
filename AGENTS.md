@@ -1,5 +1,8 @@
 # Agent Operating Rules
 
+> This is a reference solution branch. Return to `cycle-3` for the exercise and
+> compare implementations rather than starting here.
+
 This repository is a workshop scaffold for organized, plan-driven development.
 
 ## Before coding
@@ -15,8 +18,9 @@ This repository is a workshop scaffold for organized, plan-driven development.
 - Keep every Python file under 150 lines; split by responsibility when needed.
 - Keep data contracts in `models.py` and deterministic math in `tools.py`.
 - Preserve the boundaries: repository → preparation → domain logic → UI.
-- Implement the current branch's TODO in the root module. Do not import code from another branch.
-- Compare with the matching `cycle-N-solution` branch only after the demo checklist passes.
+- The current cycle is complete on this branch; do not treat it as a starter.
+- Compare with the matching starter branch to review the implementation diff.
+- Do not import code from another branch.
 - Do not add automated tests, pytest configuration, or CI workflows.
 
 ## Before finishing

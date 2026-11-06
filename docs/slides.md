@@ -16,7 +16,7 @@ Notes:
 - Welcome everyone. Verify Wi-Fi and editor setup.
 - Today is not a lecture; it is a reconnaissance mission built on repeatable
   plan-execute cycles.
-- We are on the Cycle 3 starter; the completed answer is on cycle-3-solution.
+- We are on cycle-3-solution, the completed Cycle 3 answer.
 - We will keep AI agents inside clear architectural boundaries.
 -->
 
@@ -146,14 +146,14 @@ Notes:
 
 ---
 
-# Cycle 3: Current Exercise — Autonomous Operator
+# Cycle 3: Solution Review — Autonomous Operator
 
 ### Starter `cycle-3` | Solution `cycle-3-solution` | Stage 3
 
 - **Data:** 16 trucks × 10 readings + 3 corrupt packets = 163 rows, plus 15
   route assignments.
 - **Architecture:** alert → `dispatch.py` → `tools.py` → `DispatchOrder`.
-- **Execution target:** `dispatch.evaluate_incident()`.
+- **Completed implementation:** `dispatch.evaluate_incident()`.
 - **Rule:** Never let an LLM do math in a text prompt.
 - **Review:** `TRUCK-44` diverts to Olten; `TRUCK-58` is unassigned but handled;
   the decision trail explains every number.
@@ -162,8 +162,8 @@ Notes:
 Notes:
 - The operator is deterministic: pure Python calculates rate, runway, travel,
   and margin.
-- Participants implement dispatch.py on cycle-3.
-- Reference answer: cycle-3-solution.
+- This branch contains the completed dispatch implementation.
+- Return to cycle-3 to implement it yourself.
 - Missing assignments are an intentional edge case.
 -->
 
@@ -185,8 +185,8 @@ Notes:
 
 <!--
 Notes:
-- Have two squads implement dispatch.py, run app_cycle3.py, and compare with
-  cycle-3-solution.
+- Review the completed dispatch implementation and run app_cycle3.py.
+- Compare cycle-3 with cycle-3-solution to see the final answer.
 - Remind them: plans and architecture layouts are the reusable assets.
 - Wrap up on time and wish them success at Space Apps.
 -->
