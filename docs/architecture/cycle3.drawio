@@ -21,15 +21,15 @@
           <mxGeometry x="190" y="300" width="220" height="80" as="geometry" />
         </mxCell>
 
-        <mxCell id="prep" value="prep.py&#10;build_fleet_snapshot()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+        <mxCell id="prep" value="prep.py&#10;build_fleet_snapshot()&#10;IMPLEMENTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
           <mxGeometry x="480" y="130" width="210" height="90" as="geometry" />
         </mxCell>
 
-        <mxCell id="engine" value="engine.py&#10;assess_fleet_risk()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+        <mxCell id="engine" value="engine.py&#10;assess_fleet_risk()&#10;IMPLEMENTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
           <mxGeometry x="760" y="130" width="210" height="90" as="geometry" />
         </mxCell>
 
-        <mxCell id="operator" value="dispatch.py&#10;build_dispatch_order()&#10;CYCLE 3 EXECUTION TARGET" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+        <mxCell id="operator" value="dispatch.py&#10;build_dispatch_order()&#10;CYCLE 3 EXECUTION TARGET (TODO)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
           <mxGeometry x="1040" y="130" width="240" height="100" as="geometry" />
         </mxCell>
 

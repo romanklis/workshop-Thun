@@ -1,5 +1,8 @@
 # Cycle 3 Plan — Autonomous Operator
 
+> **Status:** Cycle 3 starter. Implement `dispatch.py`; the reference answer is
+> on branch `cycle-3-solution`.
+
 ## Goal
 
 Add a deterministic dispatch operator on top of the Cycle 2 risk layer. The

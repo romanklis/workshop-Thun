@@ -16,6 +16,7 @@ Notes:
 - Welcome everyone. Verify Wi-Fi and editor setup.
 - Today is not a lecture; it is a reconnaissance mission built on repeatable
   plan-execute cycles.
+- We are on the Cycle 3 starter; the completed answer is on cycle-3-solution.
 - We will keep AI agents inside clear architectural boundaries.
 -->
 
@@ -106,53 +107,53 @@ Notes:
 
 ---
 
-# Cycle 1: Baseline & Data Preparation
+# Cycle 1: Completed — Telemetry Preparation
 
-### Branch `cycle-1` | App `app_cycle1.py` | Stage 1
+### Starter `cycle-1` | Solution `cycle-1-solution` | Stage 1
 
 - **Data:** 10 trucks × 4 readings + 2 corrupt packets = 42 rows.
 - **Architecture:** SQLite → `FleetRepository` → `prep.py` → `app_cycle1.py`.
-- **Execution target:** `prep.build_fleet_snapshot()`.
+- **Completed implementation:** `prep.build_fleet_snapshot()`.
   - Validate, group by truck, keep latest, count readings, compute silence.
 - **Review:** 10 clean truck rows; `TRUCK-44` at `7.4 °C`, `15%`, offline.
 
 <!--
 Notes:
-- The raw feed is intentionally noisy and interleaved.
-- Participants implement the preparation layer; the app shows a clear
-  placeholder until they do.
-- Start on branch cycle-1; the default main branch mirrors cycle-1.
-- Open docs/architecture/cycle1.drawio before coding.
+- Cycle 1 is completed history.
+- The raw feed was intentionally noisy and interleaved.
+- Reference answer: cycle-1-solution; exercise starter: cycle-1.
 -->
 
 ---
 
-# Cycle 2: Risk Layer
+# Cycle 2: Completed — Risk Layer
 
-### Branch `cycle-2` | App `app_cycle2.py` | Stage 2
+### Starter `cycle-2` | Solution `cycle-2-solution` | Stage 2
 
 - **Data:** 14 trucks × 8 readings + 3 corrupt packets = 115 rows.
 - **Architecture:** prepared snapshot → `engine.py` → alert table.
-- **Execution target:** `assess_fleet_risk()`.
+- **Completed implementation:** `engine.assess_fleet_risk()`.
   - PHARMA heat and silence rules; FRESH_FOOD thresholds; STANDARD stays LOW.
 - **Review:** `TRUCK-44` and `TRUCK-58` are `CRITICAL`; `TRUCK-21` is `MEDIUM`;
   `TRUCK-99` is `LOW`.
 
 <!--
 Notes:
-- This branch is a reference solution; attendees compare it with their own.
+- Cycle 2 is completed history.
+- Reference answer: cycle-2-solution; exercise starter: cycle-2.
 - The plan document defines the rule table and the exact demo checklist.
 -->
 
 ---
 
-# Cycle 3: Autonomous Operator
+# Cycle 3: Current Exercise — Autonomous Operator
 
-### Branch `cycle-3` | App `app_cycle3.py` | Stage 3
+### Starter `cycle-3` | Solution `cycle-3-solution` | Stage 3
 
 - **Data:** 16 trucks × 10 readings + 3 corrupt packets = 163 rows, plus 15
   route assignments.
 - **Architecture:** alert → `dispatch.py` → `tools.py` → `DispatchOrder`.
+- **Execution target:** `dispatch.evaluate_incident()`.
 - **Rule:** Never let an LLM do math in a text prompt.
 - **Review:** `TRUCK-44` diverts to Olten; `TRUCK-58` is unassigned but handled;
   the decision trail explains every number.
@@ -161,6 +162,8 @@ Notes:
 Notes:
 - The operator is deterministic: pure Python calculates rate, runway, travel,
   and margin.
+- Participants implement dispatch.py on cycle-3.
+- Reference answer: cycle-3-solution.
 - Missing assignments are an intentional edge case.
 -->
 
@@ -182,7 +185,8 @@ Notes:
 
 <!--
 Notes:
-- Have two squads show their running app at the current branch.
+- Have two squads implement dispatch.py, run app_cycle3.py, and compare with
+  cycle-3-solution.
 - Remind them: plans and architecture layouts are the reusable assets.
 - Wrap up on time and wish them success at Space Apps.
 -->

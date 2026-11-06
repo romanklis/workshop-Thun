@@ -68,30 +68,42 @@ def main() -> None:
 
     st.subheader("Emergency Operator")
     st.caption(
-        "Deterministic tools calculate rate, runway, travel time, and margin."
+        "Execution target: dispatch.evaluate_incident(). "
+        "Reference answer: branch `cycle-3-solution`."
     )
     if st.button("Execute Emergency Triage"):
-        latest_by_truck = {row.truck_id: row for row in snapshot}
-        assignments = {
-            row["truck_id"]: TruckAssignment.model_validate(row)
-            for row in assignment_rows
-        }
-        orders = []
-        trail = []
-        for alert in alerts:
-            if alert.risk_level != "CRITICAL":
-                continue
-            latest = latest_by_truck[alert.truck_id]
-            history = repo.get_telemetry_for_truck(alert.truck_id)
-            order, decision = evaluate_incident(
-                alert,
-                latest,
-                history,
-                assignments.get(alert.truck_id),
+        try:
+            latest_by_truck = {row.truck_id: row for row in snapshot}
+            assignments = {
+                row["truck_id"]: TruckAssignment.model_validate(row)
+                for row in assignment_rows
+            }
+            orders = []
+            trail = []
+            for alert in alerts:
+                if alert.risk_level != "CRITICAL":
+                    continue
+                latest = latest_by_truck[alert.truck_id]
+                history = repo.get_telemetry_for_truck(alert.truck_id)
+                order, decision = evaluate_incident(
+                    alert,
+                    latest,
+                    history,
+                    assignments.get(alert.truck_id),
+                )
+                orders.append(order)
+                trail.append(decision)
+        except NotImplementedError:
+            st.info(
+                "Cycle 3 execution target: implement "
+                "`dispatch.evaluate_incident()`."
             )
-            orders.append(order)
-            trail.append(decision)
-        render_dispatch(orders, trail)
+            st.markdown(
+                "Use `docs/plans/cycle3.md` and compare with branch "
+                "`cycle-3-solution` after the demo checklist passes."
+            )
+        else:
+            render_dispatch(orders, trail)
 
 
 if __name__ == "__main__":

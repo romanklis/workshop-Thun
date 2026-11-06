@@ -1,5 +1,8 @@
 # Cycle 1 Plan — Baseline Cockpit & Telemetry Preparation
 
+> **Status:** Completed in Cycle 1. This branch stages Stage 3 data, so
+> `app_cycle1.py` shows 16 trucks. Reference solution: `cycle-1-solution`.
+
 ## Goal
 
 Build a runnable Streamlit cockpit that reads the raw Swiss fleet database and

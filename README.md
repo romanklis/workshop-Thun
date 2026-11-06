@@ -2,18 +2,18 @@
 
 ### Lean-AI-Dev Workshop | Plan → Architecture → Execute
 
-> **START HERE →** `git checkout cycle-1`
+> **CYCLE 3 STARTER →** `git checkout cycle-3`
 >
-> You are viewing the `cycle-3` reference solution. `main` mirrors `cycle-1`.
+> If you have not completed the earlier cycles, start on `cycle-1`. The
+> completed Cycle 3 answer is on `cycle-3-solution`.
 
 Welcome to the **TransAlpine Logistics** engineering strike team. Today you are
 not a code typist; you are the **system architect and reviewer in chief**. The
 workshop teaches organized AI-assisted development: write a plan, draw the
 architecture, execute the planned slice, review the running app, then re-plan.
 
-The repository is deliberately split into three cycle branches plus a `main`
-mirror, and three growing data stages. Verification is by manual demo checklist,
-not an automated test suite.
+This branch is the **Cycle 3 starter**. Telemetry preparation and the risk
+engine are complete; the dispatch operator is the current exercise.
 
 ---
 
@@ -35,74 +35,56 @@ across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
 
 ## Branch Map
 
-| Branch | Apps | Data stage | What works |
+### Cycle starters
+
+| Branch | Role | Data stage | App |
 |---|---|---|---|
-| `cycle-1` | `app_cycle1.py` | Stage 1 | **Start here** — raw data access, noisy feed, architecture scaffold; `prep.py` is the execution target |
-| `main` | `app_cycle1.py` | Stage 1 | Default landing branch; mirrors `cycle-1` |
-| `cycle-2` | `app_cycle1.py`, `app_cycle2.py` | Stage 2 | Reference solution — prepared fleet snapshot and risk alerts |
-| `cycle-3` | all three apps | Stage 3 | Reference solution — deterministic operator and decision trail |
+| `cycle-1` | Cycle 1 starter | Stage 1 | `app_cycle1.py` |
+| `main` | Default landing branch; mirrors `cycle-1` | Stage 1 | `app_cycle1.py` |
+| `cycle-2` | Cycle 2 starter | Stage 2 | `app_cycle2.py` |
+| `cycle-3` | **Current Cycle 3 starter** | Stage 3 | `app_cycle3.py` |
 
-All branches are published. Start on `cycle-1`; `main` mirrors it. Use `cycle-2`
-and `cycle-3` only for comparison.
+### Reference solutions
 
-> **Reference solution:** You are on `cycle-3`, the full dispatch-operator
-> solution. Start the workshop on `cycle-1`; `main` mirrors `cycle-1`. To inspect
-> this branch, run `streamlit run app_cycle3.py` after seeding the database.
+| Branch | Solved exercise |
+|---|---|
+| `cycle-1-solution` | Cycle 1 telemetry preparation |
+| `cycle-2-solution` | Cycle 2 risk engine |
+| `cycle-3-solution` | Cycle 3 dispatch operator |
+
+Use a solution branch only to compare after the matching demo checklist passes.
+Do not start the workshop there.
 
 ---
 
-## Quickstart — Cycle 1 (start on branch `cycle-1`)
-
-> To begin the exercise from this reference branch, run `git checkout cycle-1`
-> first.
+## Quickstart — Cycle 3
 
 Run from the repository root.
 
 ### Windows PowerShell
 
 ```powershell
-git checkout cycle-1
+git checkout cycle-3
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python init_db.py
-streamlit run app_cycle1.py
+streamlit run app_cycle3.py
 ```
 
 ### macOS / Linux
 
 ```bash
-git checkout cycle-1
+git checkout cycle-3
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python init_db.py
-streamlit run app_cycle1.py
+streamlit run app_cycle3.py
 ```
 
 `init_db.py` is repeatable. Rerun it before each demo to refresh the relative
 timestamps; otherwise the seeded trucks will look stale.
-
-### Cycle 2 quickstart on this branch
-
-```bash
-python init_db.py
-streamlit run app_cycle2.py
-```
-
-`prep.py` and `engine.py` are already implemented here. Read
-`docs/plans/cycle2.md` and `docs/architecture/cycle2.drawio` to review what was
-executed.
-
-### Cycle 3 quickstart on this branch
-
-```bash
-python init_db.py
-streamlit run app_cycle3.py
-```
-
-`dispatch.py`, `tools.py`, and the route assignments are implemented on this
-branch. Read `docs/plans/cycle3.md` and `docs/architecture/cycle3.drawio`.
 
 ---
 
@@ -110,8 +92,8 @@ branch. Read `docs/plans/cycle3.md` and `docs/architecture/cycle3.drawio`.
 
 Each cycle uses the same loop:
 
-1. **Plan** — read `docs/plans/cycleN.md`: goal, data stage, interfaces, demo list.
-2. **Architecture** — open `docs/architecture/cycleN.drawio` and trace the flow.
+1. **Plan** — read `docs/plans/cycle3.md`.
+2. **Architecture** — open `docs/architecture/cycle3.drawio` and trace the flow.
 3. **Execute** — supervise the coding agent to implement only the planned slice.
 4. **Review** — run the app, complete the demo checklist, and inspect drift.
 5. **Re-plan** — record gaps before moving to the next cycle.
@@ -128,93 +110,65 @@ Each cycle uses the same loop:
 | 2 | 8 | 14 | 8 | 3 | 115 | 0 |
 | 3 | 10 | 16 | 10 | 3 | 163 | 15 |
 
-The data grows because the application needs more context each cycle: raw
-snapshots for the cockpit, telemetry history for risk, then route assignments
-for dispatch.
+Stages 1 and 2 are completed history. Stage 3 is the current branch data and
+adds route assignments for dispatch.
 
 ---
 
-## Cycle 1: Baseline & Data Preparation
+## Cycle 1 — Completed
 
-**Goal:** Understand the baseline, then prepare interleaved raw packets for
-display.
+`prep.build_fleet_snapshot()` validates packets, rejects corrupt rows, groups by
+truck, selects the latest reading, counts readings, and computes silent minutes.
 
-**The trap:** The raw feed mixes multiple readings per truck and includes
-corrupt packets. The baseline dispatcher view looks busy but does not tell you
-which truck state is current.
+Reference solution: `cycle-1-solution`.
 
-**Execution target:** Implement `prep.build_fleet_snapshot()` in `prep.py`:
+---
 
-1. Validate each raw row with `TelemetryReading`.
-2. Skip corrupt rows.
-3. Group valid packets by `truck_id`.
-4. Keep the latest timestamp per truck.
-5. Count valid packets per truck.
-6. Compute silent minutes with `calculate_minutes_silent`.
-7. Return rows sorted by `truck_id`.
+## Cycle 2 — Completed
 
-Follow `docs/plans/cycle1.md` and open `docs/architecture/cycle1.drawio`.
-On this branch the Cycle 1 target is already implemented; use
-`app_cycle1.py` to inspect the prepared result.
+`engine.assess_fleet_risk()` applies the PHARMA, FRESH_FOOD, and STANDARD risk
+rules and returns one alert per valid truck, including LOW alerts.
+
+Reference solution: `cycle-2-solution`.
+
+---
+
+## Cycle 3 — Current Exercise: Autonomous Operator
+
+**Goal:** Turn critical risk alerts into verified dispatch orders with an
+auditable decision trail.
+
+**Execution target:** Implement `dispatch.evaluate_incident()` and
+`dispatch.build_dispatch_order()` in `dispatch.py`.
+
+**Operator formula:**
+
+1. Take the latest prepared row and the truck's valid telemetry history.
+2. Compute the temperature rate from the last two valid readings.
+3. Compute runway minutes to `8.0 °C`.
+4. Rank depots with `find_emergency_depots`.
+5. Compute travel minutes to the nearest depot.
+6. Compute margin = runway − travel.
+7. Choose `DIVERT_TO_NEAREST_DEPOT` when margin is positive, otherwise
+   `EMERGENCY_DIVERT`.
+8. Include the assignment summary; use `UNASSIGNED` when no assignment exists.
+
+Follow `docs/plans/cycle3.md` and open `docs/architecture/cycle3.drawio`.
 
 **Demo checklist:**
 
-- App launches with `streamlit run app_cycle1.py`.
-- Raw feed shows multiple readings per truck, not one row per truck.
-- Raw map shows all raw points and looks noisy.
-- Prepared panel shows exactly 10 trucks after implementation.
-- `TRUCK-44` is `7.4 °C`, `15%`, `OFFLINE_LOST_SIGNAL`, about 35 minutes silent.
-- `TRUCK-99` is `19.5 °C` and `STANDARD`.
-- `TRUCK-X1` and `TRUCK-X2` are excluded from the prepared snapshot.
-- No duplicate truck rows.
+- App launches with `streamlit run app_cycle3.py`.
+- Prepared snapshot shows 16 valid trucks.
+- Critical alerts are visible before dispatch.
+- Clicking **Execute Emergency Triage** produces `DispatchOrder` rows after
+  implementation.
+- `TRUCK-44` routes to `HUB-OLTEN` with a positive margin.
+- `TRUCK-58` is critical but unassigned; its summary shows `UNASSIGNED`.
+- Standard cargo does not produce dispatch orders.
+- The decision trail shows temperature rate, runway, nearest depot, travel,
+  margin, and action.
 
-**Key question:** Everything looks green on the map. Is the fleet actually safe?
-
----
-
-## Cycle 2: Risk Layer
-
-Check out `cycle-2` and run:
-
-```bash
-python init_db.py
-streamlit run app_cycle2.py
-```
-
-The branch implements `engine.assess_fleet_risk()` and adds the alert table.
-
-| Cargo | Condition | Risk | Recommended action |
-|---|---|---|---|
-| PHARMA | `temp_c > 7.0` or (`minutes_silent > 20` and `temp_c > 5.0`) | `CRITICAL` | `DIVERT_TO_NEAREST_DEPOT` |
-| PHARMA | `temp_c > 6.0` or `minutes_silent > 20` | `MEDIUM` | `NOTIFY_DRIVER` |
-| PHARMA | otherwise | `LOW` | `MONITOR` |
-| FRESH_FOOD | `temp_c > 6.0` | `CRITICAL` | `DIVERT_TO_NEAREST_DEPOT` |
-| FRESH_FOOD | `temp_c > 4.0` | `MEDIUM` | `NOTIFY_DRIVER` |
-| FRESH_FOOD | otherwise | `LOW` | `MONITOR` |
-| STANDARD | any valid reading | `LOW` | `MONITOR` |
-
-Expected demo: `TRUCK-44` and `TRUCK-58` are `CRITICAL`, `TRUCK-21` is `MEDIUM`,
-and `TRUCK-99` remains `LOW`.
-
----
-
-## Cycle 3: Autonomous Operator
-
-Check out `cycle-3` and run:
-
-```bash
-python init_db.py
-streamlit run app_cycle3.py
-```
-
-The branch adds route assignments, deterministic tools, and `dispatch.py`.
-Click **Execute Emergency Triage** to generate `DispatchOrder` rows and inspect
-the decision trail: temperature rate, runway, nearest depot, travel time, and
-margin.
-
-Expected demo: `TRUCK-44` routes to the Olten depot. `TRUCK-58` is critical but
-has no route assignment, so its order summary shows `UNASSIGNED` without
-crashing the app.
+**Reference solution:** branch `cycle-3-solution`.
 
 ---
 
@@ -222,53 +176,56 @@ crashing the app.
 
 ```text
 workshop-Thun/
-├── app_cycle1.py             # Cycle 1 entry point (cycle-1 / main)
-├── app_cycle2.py             # Cycle 2 entry point (cycle-2+)
-├── app_cycle3.py             # Cycle 3 entry point (cycle-3)
-├── prep.py                   # Cycle 1 preparation target
-├── engine.py                 # Cycle 2 risk target
-├── dispatch.py               # Cycle 3 dispatch target (cycle-3)
+├── app_cycle1.py             # Completed Cycle 1 cockpit
+├── app_cycle2.py             # Completed Cycle 2 cockpit
+├── app_cycle3.py             # CURRENT: Cycle 3 cockpit
+├── prep.py                   # COMPLETE: telemetry preparation
+├── engine.py                 # COMPLETE: risk engine
+├── dispatch.py               # CURRENT TARGET: dispatch operator
 ├── repository.py             # SQLite access layer
-├── models.py                 # Pydantic data contracts
+├── models.py                 # Contracts, including TruckAssignment
 ├── tools.py                  # Deterministic calculations
 ├── ui.py                     # Shared Streamlit rendering
-├── seed_stage1.py            # Stage 1 seed (cycle-1 / main)
-├── seed_stage2.py            # Stage 2 seed (cycle-2+)
-├── seed_stage3.py            # Stage 3 seed (cycle-3)
-├── init_db.py                # Rebuilds the current stage database
-├── docs/plans/               # Plan-execute documents
-├── docs/architecture/        # Per-cycle Draw.io layouts
-├── docs/slides.md            # 9-slide workshop deck
+├── seed_stage1.py            # Stage 1 seed history
+├── seed_stage2.py            # Stage 2 seed history
+├── seed_stage3.py            # Stage 3 seed data and assignments
+├── init_db.py                # Rebuilds the Stage 3 database
+├── docs/plans/README.md      # Plan-execute workflow
+├── docs/plans/cycle1.md      # Completed Cycle 1 plan
+├── docs/plans/cycle2.md      # Completed Cycle 2 plan
+├── docs/plans/cycle3.md      # Current Cycle 3 plan
+├── docs/architecture/        # All three Draw.io layouts
+├── docs/slides.md            # Final workshop deck
 ├── AGENTS.md                 # Agent operating rules
-└── data/logistics.db         # Committed stage snapshot
+└── data/logistics.db         # Committed Stage 3 snapshot
 ```
 
 ---
 
 ## Guardrails
 
-- **Architecture first:** Read the cycle plan and layout before prompting.
-- **One slice per execution:** Do not jump ahead to a later cycle.
-- **Contracts before syntax:** Reference `models.py` when asking for changes.
+- **Architecture first:** Read the Cycle 3 plan and layout before prompting.
+- **Implement only Cycle 3:** Do not redo preparation or risk logic.
+- **Deterministic math:** All numbers come from `tools.py`; no LLM arithmetic.
 - **150-line cap:** Split seed data, UI helpers, or domain logic instead of
   growing monolithic files.
-- **No automated tests:** Verify with the plan's manual demo checklist and
-  architecture review. Do not add pytest or CI.
-- **Review the diff:** The agent writes syntax; you own the boundaries.
+- **Compare by branch:** After the checklist passes, compare with
+  `cycle-3-solution`. Do not import code from another branch.
+- **No automated tests:** Verify with the manual demo checklist and architecture
+  review. Do not add pytest or CI.
 
 ---
 
 ## Demo Data Notes
 
-- **TRUCK-12** (`FRESH_FOOD`): nominal at approximately `3.2 °C`.
 - **TRUCK-44** (`PHARMA`): rises to `7.4 °C`, battery `15%`, last signal
   `OFFLINE_LOST_SIGNAL` about 35 minutes ago near Egerkingen.
-- **TRUCK-58** (`PHARMA`): about `6.9 °C`, about 25 minutes silent, unassigned
-  in Stage 3.
-- **TRUCK-99** (`STANDARD`): `19.5 °C`; warm is normal for dry goods.
-- **TRUCK-X1 / TRUCK-X2**: deliberately corrupt packets that must be rejected
-  by the Pydantic boundary.
+- **TRUCK-58** (`PHARMA`): about `6.9 °C`, about 25 minutes silent, and
+  intentionally unassigned.
 - **TRUCK-21** (`FRESH_FOOD`): warming to about `4.9 °C`.
+- **TRUCK-99** (`STANDARD`): `19.5 °C`; warm is normal for dry goods.
+- Stage 3 adds `TRUCK-121`, `TRUCK-131`, and 15 route assignments.
+- **TRUCK-X1 / TRUCK-X2 / TRUCK-X3**: corrupt packets rejected by Pydantic.
 
 ---
 
@@ -279,8 +236,8 @@ workshop-Thun/
 | `Database not found` | Run `python init_db.py` from the repository root. |
 | PowerShell blocks activation | Run `Set-ExecutionPolicy -Scope Process Bypass`, then activate again. |
 | Dashboard shows stale times | Rerun `python init_db.py` and refresh the page. |
-| Streamlit command not found | Activate the virtual environment or run `python -m streamlit run app_cycle1.py`. |
-| App shows a `NotImplementedError` panel | That is the current cycle's execution target; read the matching plan. |
+| Streamlit command not found | Activate the virtual environment or run `python -m streamlit run app_cycle3.py`. |
+| Emergency Operator shows the target placeholder | Implement `dispatch.evaluate_incident()`; compare with `cycle-3-solution` afterward. |
 
 The slide-by-slide workshop outline is in `docs/slides.md`. Render it with Marp
 for 16:9 output, or read it as plain Markdown.

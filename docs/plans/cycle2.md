@@ -1,5 +1,8 @@
 # Cycle 2 Plan — Risk Layer
 
+> **Status:** Completed in Cycle 2. This branch stages Stage 3 data, so
+> `app_cycle2.py` shows 16 trucks. Reference solution: `cycle-2-solution`.
+
 ## Goal
 
 Turn the prepared fleet snapshot into an operational risk view. This branch is
