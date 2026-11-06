@@ -151,7 +151,7 @@ Notes:
 
 - **Data:** 16 trucks × 10 readings + 3 corrupt packets = 163 rows, plus 15
   route assignments.
-- **Architecture:** alert → `operator.py` → `tools.py` → `DispatchOrder`.
+- **Architecture:** alert → `dispatch.py` → `tools.py` → `DispatchOrder`.
 - **Rule:** Never let an LLM do math in a text prompt.
 - **Review:** `TRUCK-44` diverts to Olten; `TRUCK-58` is unassigned but handled;
   the decision trail explains every number.
