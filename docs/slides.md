@@ -14,9 +14,9 @@ size: 16:9
 <!--
 Notes:
 - Welcome everyone. Verify Wi-Fi and editor setup.
-- Today is not a lecture; it is a reconnaissance mission built on repeatable
-  plan-execute cycles.
-- We will keep AI agents inside clear architectural boundaries.
+- Today is a reconnaissance mission built on repeatable plan-execute cycles.
+- The start branch is cycle-1. The completed Cycle 1 answer is on
+  cycle-1-solution.
 -->
 
 ---
@@ -35,10 +35,9 @@ Notes:
 
 <!--
 Notes:
-- Point out the pairing in the room: domain experts paired with Python
-  engineers.
-- Domain experts own what spoils and where trucks should divert; architects
-  own the boundaries.
+- Pair domain experts with Python engineers.
+- Domain experts own what spoils and where trucks should divert; architects own
+  the boundaries.
 -->
 
 ---
@@ -66,23 +65,21 @@ Notes:
 
 # The Mission: TransAlpine Logistics
 
-### Swiss Cold-Chain Fleet Modernization
+### Cycle 1 — Raw Data and Telemetry Preparation
 
 - **The operation:** Refrigerated delivery across Basel, Zurich, Bern, and
   Olten.
 - **The high-value cargo:** Temperature-sensitive pharmaceuticals with a
   maximum allowed limit of **+8.0 °C**.
-- **The data stages:**
-  1. Raw snapshots and noisy telemetry.
-  2. Telemetry history and risk signals.
-  3. Route assignments and dispatch context.
-- **The target:** A visual cockpit, a risk layer, and a deterministic operator.
+- **Cycle 1 data stage:** 4 hubs, 4 routes, 10 valid trucks, 4 readings each,
+  2 corrupt packets — **42 raw packets**.
+- **The target:** A cockpit that groups raw packets into one current state per
+  truck.
 
 <!--
 Notes:
-- Explain why this case is universal: pharma cold chains, emergency logistics,
-  and satellite telemetry share the same pattern.
-- Data grows with the application because each cycle needs more context.
+- The raw feed is deliberately noisy and interleaved.
+- Later data stages are introduced on cycle-2 and cycle-3.
 -->
 
 ---
@@ -99,7 +96,6 @@ Notes:
 
 <!--
 Notes:
-- This is the core rhythm of the workshop.
 - Plans live in docs/plans; layouts live in docs/architecture.
 - The repository has no automated tests; the demo checklist is the review gate.
 -->
@@ -110,79 +106,34 @@ Notes:
 
 ### Branch `cycle-1` | App `app_cycle1.py` | Stage 1
 
-- **Data:** 10 trucks × 4 readings + 2 corrupt packets = 42 rows.
 - **Architecture:** SQLite → `FleetRepository` → `prep.py` → `app_cycle1.py`.
 - **Execution target:** `prep.build_fleet_snapshot()`.
   - Validate, group by truck, keep latest, count readings, compute silence.
 - **Review:** 10 clean truck rows; `TRUCK-44` at `7.4 °C`, `15%`, offline.
+- **Reference answer:** branch `cycle-1-solution`.
 
 <!--
 Notes:
 - The raw feed is intentionally noisy and interleaved.
-- Participants implement the preparation layer; the app shows a clear
-  placeholder until they do.
-- Start on branch cycle-1; the default main branch mirrors cycle-1.
-- Open docs/architecture/cycle1.drawio before coding.
+- Participants implement the preparation layer; the app shows a placeholder
+  until they do.
+- Compare with cycle-1-solution only after the checklist passes.
 -->
 
 ---
 
-# Cycle 2: Risk Layer
+# Next: Cycle 2 — Risk Layer
 
-### Branch `cycle-2` | App `app_cycle2.py` | Stage 2
+### Starter `cycle-2` | Solution `cycle-2-solution`
 
-- **Data:** 14 trucks × 8 readings + 3 corrupt packets = 115 rows.
-- **Architecture:** prepared snapshot → `engine.py` → alert table.
-- **Execution target:** `assess_fleet_risk()`.
-  - PHARMA heat and silence rules; FRESH_FOOD thresholds; STANDARD stays LOW.
-- **Review:** `TRUCK-44` and `TRUCK-58` are `CRITICAL`; `TRUCK-21` is `MEDIUM`;
-  `TRUCK-99` is `LOW`.
+- **Current Cycle 2 target:** implement `engine.assess_fleet_risk()`.
+- **Starting state:** `prep.py` is complete on `cycle-2`.
+- **Next data stage:** 14 trucks, 8 readings each, 115 packets.
+- **Rule:** Finish the Cycle 1 checklist before changing branches.
 
 <!--
 Notes:
-- This branch is a reference solution; attendees compare it with their own.
-- The plan document defines the rule table and the exact demo checklist.
--->
-
----
-
-# Cycle 3: Autonomous Operator
-
-### Branch `cycle-3` | App `app_cycle3.py` | Stage 3
-
-- **Data:** 16 trucks × 10 readings + 3 corrupt packets = 163 rows, plus 15
-  route assignments.
-- **Architecture:** alert → `dispatch.py` → `tools.py` → `DispatchOrder`.
-- **Rule:** Never let an LLM do math in a text prompt.
-- **Review:** `TRUCK-44` diverts to Olten; `TRUCK-58` is unassigned but handled;
-  the decision trail explains every number.
-
-<!--
-Notes:
-- The operator is deterministic: pure Python calculates rate, runway, travel,
-  and margin.
-- Missing assignments are an intentional edge case.
--->
-
----
-
-# Demo & Handoff
-
-### From Workshop Branch to Next Weekend
-
-- **What we delivered:**
-  1. A staged data pipeline from raw packets to dispatch context.
-  2. Three cumulative architecture snapshots.
-  3. A plan-execute workflow for supervising coding agents.
-  4. A working cockpit at every stage.
-- **How to win NASA Space Apps Bern:**
-  - **Saturday 09:00:** Write the plan and draw the layout before prompting.
-  - **Saturday 14:00:** Execute the verified 80% MVP.
-  - **Sunday morning:** Polish the UI and rehearse the demo.
-
-<!--
-Notes:
-- Have two squads show their running app at the current branch.
-- Remind them: plans and architecture layouts are the reusable assets.
-- Wrap up on time and wish them success at Space Apps.
+- The Cycle 2 starter keeps the prep implementation from Cycle 1.
+- The reference answer is on cycle-2-solution.
+- Do not start from a solution branch.
 -->

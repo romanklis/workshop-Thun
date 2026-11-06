@@ -14,6 +14,7 @@ Implementation contract
 6. Return rows sorted by ``truck_id``.
 
 See ``docs/plans/cycle1.md`` for the execution steps and demo checklist.
+The reference answer is on branch ``cycle-1-solution``; do not import it here.
 """
 
 from __future__ import annotations
@@ -28,5 +29,6 @@ def build_fleet_snapshot(
     """Return one prepared latest-state row per valid truck."""
 
     raise NotImplementedError(
-        "Cycle 1: implement build_fleet_snapshot using docs/plans/cycle1.md."
+        "Cycle 1: implement build_fleet_snapshot using docs/plans/cycle1.md. "
+        "The reference answer is on branch cycle-1-solution."
     )

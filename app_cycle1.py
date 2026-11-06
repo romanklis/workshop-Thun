@@ -65,13 +65,15 @@ def main() -> None:
         st.markdown(
             "Implement `prep.build_fleet_snapshot()` by following "
             "`docs/plans/cycle1.md`. Group the raw packets by truck, keep the "
-            "latest timestamp, skip corrupt rows, and compute silent minutes."
+            "latest timestamp, skip corrupt rows, and compute silent minutes. "
+            "The reference answer is on branch `cycle-1-solution`."
         )
     else:
         render_snapshot(snapshot)
 
     render_next_cycle(
-        "Next: branch `cycle-2` adds the risk engine and `app_cycle2.py`."
+        "Next: branch `cycle-2` adds the risk engine and `app_cycle2.py`. "
+        "Reference answer: `cycle-1-solution`."
     )
 
 

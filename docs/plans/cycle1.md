@@ -1,5 +1,8 @@
 # Cycle 1 Plan — Baseline Cockpit & Telemetry Preparation
 
+> **Status:** Cycle 1 starter. Implement `prep.py`; the reference answer is on
+> branch `cycle-1-solution`.
+
 ## Goal
 
 Build a runnable Streamlit cockpit that reads the raw Swiss fleet database and
