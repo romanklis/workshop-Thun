@@ -1,13 +1,13 @@
 # Cycle 2 Plan — Risk Layer
 
-> **Status:** Cycle 2 starter. `prep.py` is complete; implement
-> `engine.assess_fleet_risk()`. Reference answer: `cycle-2-solution`.
+> **Status:** Completed on `cycle-2-solution`. The reference implementation is
+> `engine.py`; the exercise starts on `cycle-2`.
 
 ## Goal
 
 Turn the prepared fleet snapshot into an operational risk view. The preparation
-layer from Cycle 1 is implemented on this branch; the risk engine is the current
-exercise.
+layer from Cycle 1 is implemented, and this solution branch contains the
+completed risk engine.
 
 ## Data stage 2
 
@@ -55,12 +55,12 @@ Flow: SQLite → `FleetRepository` → `prep.py` → `engine.py` → `app_cycle2
 
 1. Read this plan and open the Cycle 2 architecture layout.
 2. Verify the completed `prep.build_fleet_snapshot()` from Cycle 1.
-3. Implement `engine.assess_fleet_risk()` using the rule table.
+3. Implement `engine.assess_fleet_risk()` using the rule table on `cycle-2`.
 4. Use `app_cycle2.py` to review the prepared snapshot and alerts.
 5. Run `python init_db.py`, then `streamlit run app_cycle2.py`.
 6. Review the architecture and update the plan if reality differs.
 
-The reference answer is on branch `cycle-2-solution`.
+This solution branch contains the completed engine.
 
 ## Review checklist
 

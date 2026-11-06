@@ -15,7 +15,7 @@ size: 16:9
 Notes:
 - Welcome everyone. Verify Wi-Fi and editor setup.
 - Today is a reconnaissance mission built on repeatable plan-execute cycles.
-- We are on the Cycle 2 starter. The completed answer is on cycle-2-solution.
+- We are on cycle-2-solution, the completed Cycle 2 answer.
 -->
 
 ---
@@ -117,22 +117,22 @@ Notes:
 
 ---
 
-# Cycle 2: Current Exercise — Risk Layer
+# Cycle 2: Solution Review — Risk Layer
 
-### Branch `cycle-2` | App `app_cycle2.py` | Stage 2
+### Branch `cycle-2-solution` | App `app_cycle2.py` | Stage 2
 
 - **Architecture:** prepared snapshot → `engine.py` → alert table.
-- **Execution target:** `engine.assess_fleet_risk()`.
+- **Completed implementation:** `engine.assess_fleet_risk()`.
   - PHARMA heat and silence rules; FRESH_FOOD thresholds; STANDARD stays LOW.
 - **Review:** `TRUCK-44` and `TRUCK-58` are `CRITICAL`; `TRUCK-21` is `MEDIUM`;
   `TRUCK-99` is `LOW`.
-- **Reference answer:** branch `cycle-2-solution`.
+- **Exercise starter:** branch `cycle-2`.
 
 <!--
 Notes:
-- The preparation layer is already implemented on this branch.
-- Participants implement only the risk engine.
-- Compare with cycle-2-solution after the checklist passes.
+- The preparation layer is implemented and the risk engine is complete here.
+- Return to cycle-2 to implement the engine yourself.
+- Compare the branches after the checklist passes.
 -->
 
 ---

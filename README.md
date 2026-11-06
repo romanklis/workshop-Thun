@@ -2,18 +2,17 @@
 
 ### Lean-AI-Dev Workshop | Plan → Architecture → Execute
 
-> **CYCLE 2 STARTER →** `git checkout cycle-2`
->
-> If you have not completed Cycle 1, start on `cycle-1`. The completed Cycle 2
-> answer is on `cycle-2-solution`.
+> **SOLUTION BRANCH — Cycle 2**  
+> This branch contains the completed Cycle 2 risk engine. For the exercise,
+> return to `cycle-2` and implement `engine.assess_fleet_risk()` yourself.
 
 Welcome to the **TransAlpine Logistics** engineering strike team. Today you are
 not a code typist; you are the **system architect and reviewer in chief**. The
 workshop teaches organized AI-assisted development: write a plan, draw the
 architecture, execute the planned slice, review the running app, then re-plan.
 
-This branch is the **Cycle 2 starter**. Telemetry preparation from Cycle 1 is
-already implemented; the risk engine is the current exercise.
+This branch is the **Cycle 2 reference solution**. Telemetry preparation from
+Cycle 1 is implemented, and the risk engine is complete.
 
 ---
 
@@ -49,7 +48,7 @@ across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
 | Branch | Solved exercise |
 |---|---|
 | `cycle-1-solution` | Cycle 1 telemetry preparation |
-| `cycle-2-solution` | Cycle 2 risk engine |
+| `cycle-2-solution` | **This branch** — Cycle 2 risk engine |
 | `cycle-3-solution` | Cycle 3 dispatch operator |
 
 Use a solution branch only to compare after the matching demo checklist passes.
@@ -57,14 +56,14 @@ Do not start the workshop there.
 
 ---
 
-## Quickstart — Cycle 2
+## Quickstart — Cycle 2 Solution
 
 Run from the repository root.
 
 ### Windows PowerShell
 
 ```powershell
-git checkout cycle-2
+git checkout cycle-2-solution
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -75,7 +74,7 @@ streamlit run app_cycle2.py
 ### macOS / Linux
 
 ```bash
-git checkout cycle-2
+git checkout cycle-2-solution
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -133,13 +132,13 @@ the Cycle 1 exercise, start on `cycle-1`.
 
 ---
 
-## Cycle 2 — Current Exercise: Risk Layer
+## Cycle 2 — Solution Review: Risk Layer
 
-**Goal:** Turn the prepared fleet snapshot into an operational risk view.
+**Goal:** Review how the prepared snapshot becomes an operational risk view.
 
-**Execution target:** Implement `engine.assess_fleet_risk()` in `engine.py`.
-Use `prep.build_fleet_snapshot()` and return one `TriageAlert` per valid truck,
-including LOW alerts.
+**Completed implementation:** `engine.assess_fleet_risk()` in `engine.py`.
+It uses `prep.build_fleet_snapshot()` and returns one `TriageAlert` per valid
+truck, including LOW alerts.
 
 | Cargo | Condition | Risk | Recommended action |
 |---|---|---|---|
@@ -151,35 +150,37 @@ including LOW alerts.
 | FRESH_FOOD | otherwise | `LOW` | `MONITOR` |
 | STANDARD | any valid reading | `LOW` | `MONITOR` |
 
-Follow `docs/plans/cycle2.md` and open `docs/architecture/cycle2.drawio`.
+Study `docs/plans/cycle2.md` and open `docs/architecture/cycle2.drawio` to trace
+what was implemented.
 
 **Demo checklist:**
 
 - App launches with `streamlit run app_cycle2.py`.
 - Prepared snapshot shows exactly 14 valid trucks.
-- One alert per valid truck after implementation.
+- One alert per valid truck.
 - `TRUCK-44` is `CRITICAL`.
 - `TRUCK-58` is `CRITICAL` (about `6.9 °C`, about 25 minutes silent).
 - `TRUCK-21` is `MEDIUM` (FRESH_FOOD above `4.0 °C`).
 - `TRUCK-99` is `LOW`.
 - High-risk KPI matches the number of `CRITICAL` alerts.
 
-**Reference solution:** branch `cycle-2-solution`.
+**Starter:** `cycle-2`.
 
 **Next starter:** `cycle-3` for route assignments and the dispatch operator.
-Its answer is on `cycle-3-solution`.
+Next solution: `cycle-3-solution`.
 
 ---
 
 ## Future Scaffolds on This Branch
 
-These files exist as connection points for Cycle 3 and are not implemented here:
+These files exist as connection points for Cycle 3 and are not part of the
+Cycle 2 answer:
 
 - `dispatch.py` — future dispatch-operator scaffold; both functions raise.
 - `TruckAssignment` — future Cycle 3 contract in `models.py`.
 - Dashed `dispatch` layer in `docs/architecture/cycle2.drawio`.
 
-Do not implement or call them during Cycle 2.
+They are deliberately untouched on this solution branch.
 
 ---
 
@@ -190,7 +191,7 @@ workshop-Thun/
 ├── app_cycle1.py             # Completed Cycle 1 cockpit
 ├── app_cycle2.py             # CURRENT: Cycle 2 cockpit
 ├── prep.py                   # COMPLETE: telemetry preparation
-├── engine.py                 # CURRENT TARGET: assess_fleet_risk()
+├── engine.py                 # COMPLETE: assess_fleet_risk()
 ├── dispatch.py               # Future scaffold: Cycle 3 dispatch operator
 ├── repository.py             # SQLite access layer
 ├── models.py                 # Contracts + future TruckAssignment
@@ -213,12 +214,13 @@ workshop-Thun/
 ## Guardrails
 
 - **Architecture first:** Read the Cycle 2 plan and layout before prompting.
-- **Implement only Cycle 2:** Do not jump ahead to dispatch.
+- **This is a solution branch:** Return to `cycle-2` for the exercise.
+- **Do not jump ahead:** This branch stops at the risk layer.
 - **Contracts before syntax:** Reference `models.py` when asking for changes.
 - **150-line cap:** Split seed data, UI helpers, or domain logic instead of
   growing monolithic files.
-- **Compare by branch:** After the checklist passes, compare with
-  `cycle-2-solution`. Do not import code from another branch.
+- **Compare by branch:** Use `git diff cycle-2..cycle-2-solution` to review the
+  answer. Do not import code from another branch.
 - **No automated tests:** Verify with the manual demo checklist and architecture
   review. Do not add pytest or CI.
 
@@ -244,7 +246,7 @@ workshop-Thun/
 | PowerShell blocks activation | Run `Set-ExecutionPolicy -Scope Process Bypass`, then activate again. |
 | Dashboard shows stale times | Rerun `python init_db.py` and refresh the page. |
 | Streamlit command not found | Activate the virtual environment or run `python -m streamlit run app_cycle2.py`. |
-| Triage panel shows the target placeholder | Implement `engine.assess_fleet_risk()`; compare with `cycle-2-solution` afterward. |
+| Triage panel is empty | Rerun `python init_db.py` and refresh the page. |
 
 The slide-by-slide workshop outline is in `docs/slides.md`. Render it with Marp
 for 16:9 output, or read it as plain Markdown.

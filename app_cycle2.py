@@ -85,7 +85,7 @@ def main() -> None:
 
     render_next_cycle(
         "Next starter: `cycle-3` for the dispatch operator. "
-        "Reference answer: `cycle-2-solution`."
+        "Next solution: `cycle-3-solution`."
     )
 
 
