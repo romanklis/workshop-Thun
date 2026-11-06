@@ -72,8 +72,8 @@ def main() -> None:
         render_snapshot(snapshot)
 
     render_next_cycle(
-        "Next: branch `cycle-2` adds the risk engine and `app_cycle2.py`. "
-        "Reference answer: `cycle-1-solution`."
+        "Next starter: `cycle-2` for the risk layer. "
+        "Reference answer: `cycle-2-solution`."
     )
 
 

@@ -15,8 +15,8 @@ size: 16:9
 Notes:
 - Welcome everyone. Verify Wi-Fi and editor setup.
 - Today is a reconnaissance mission built on repeatable plan-execute cycles.
-- The start branch is cycle-1. The completed Cycle 1 answer is on
-  cycle-1-solution.
+- The start branch is cycle-1. This deck is shown from cycle-1-solution, the
+  completed Cycle 1 answer.
 -->
 
 ---
@@ -102,22 +102,21 @@ Notes:
 
 ---
 
-# Cycle 1: Baseline & Data Preparation
+# Cycle 1: Solution Review
 
-### Branch `cycle-1` | App `app_cycle1.py` | Stage 1
+### Branch `cycle-1-solution` | App `app_cycle1.py` | Stage 1
 
 - **Architecture:** SQLite → `FleetRepository` → `prep.py` → `app_cycle1.py`.
-- **Execution target:** `prep.build_fleet_snapshot()`.
+- **Completed implementation:** `prep.build_fleet_snapshot()`.
   - Validate, group by truck, keep latest, count readings, compute silence.
 - **Review:** 10 clean truck rows; `TRUCK-44` at `7.4 °C`, `15%`, offline.
-- **Reference answer:** branch `cycle-1-solution`.
+- **Exercise starter:** branch `cycle-1`.
 
 <!--
 Notes:
 - The raw feed is intentionally noisy and interleaved.
-- Participants implement the preparation layer; the app shows a placeholder
-  until they do.
-- Compare with cycle-1-solution only after the checklist passes.
+- This branch shows the completed preparation layer.
+- Return to cycle-1 to implement it yourself, then compare the branches.
 -->
 
 ---

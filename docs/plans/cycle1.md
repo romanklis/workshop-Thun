@@ -1,14 +1,14 @@
 # Cycle 1 Plan — Baseline Cockpit & Telemetry Preparation
 
-> **Status:** Cycle 1 starter. Implement `prep.py`; the reference answer is on
-> branch `cycle-1-solution`.
+> **Status:** Completed on `cycle-1-solution`. The reference implementation is
+> `prep.py`; the exercise starts on `cycle-1`.
 
 ## Goal
 
 Build a runnable Streamlit cockpit that reads the raw Swiss fleet database and
-prepares interleaved sensor packets for display. This is the starting point for
-the workshop: the data layer works, but the preparation layer is intentionally
-unimplemented.
+prepares interleaved sensor packets for display. The starter branch `cycle-1`
+begins with the preparation layer unimplemented; this solution branch contains
+the completed implementation.
 
 ## Data stage 1
 
@@ -46,7 +46,7 @@ connected in this cycle.
 ## Execute
 
 1. Read this plan and open the Cycle 1 architecture layout.
-2. Implement `prep.build_fleet_snapshot()`:
+2. Implement `prep.build_fleet_snapshot()` on `cycle-1`:
    - validate every raw row with `TelemetryReading`;
    - skip `ValidationError` rows;
    - group valid packets by `truck_id`;

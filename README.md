@@ -2,18 +2,17 @@
 
 ### Lean-AI-Dev Workshop | Plan → Architecture → Execute
 
-> **START HERE →** `git checkout cycle-1`
->
-> `main` mirrors `cycle-1`. The completed Cycle 1 answer is on
-> `cycle-1-solution`. Do not start from a solution branch.
+> **SOLUTION BRANCH — Cycle 1**  
+> This branch contains the completed Cycle 1 answer. For the exercise, return
+> to `cycle-1` and implement `prep.build_fleet_snapshot()` yourself.
 
 Welcome to the **TransAlpine Logistics** engineering strike team. Today you are
 not a code typist; you are the **system architect and reviewer in chief**. The
 workshop teaches organized AI-assisted development: write a plan, draw the
 architecture, execute the planned slice, review the running app, then re-plan.
 
-This branch is the **Cycle 1 starter**. Verification is by manual demo checklist,
-not an automated test suite.
+This branch is the **Cycle 1 reference solution**. Verification is by manual demo
+checklist, not an automated test suite.
 
 ---
 
@@ -48,7 +47,7 @@ across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
 
 | Branch | Solved exercise |
 |---|---|
-| `cycle-1-solution` | Cycle 1 telemetry preparation |
+| `cycle-1-solution` | **This branch** — Cycle 1 telemetry preparation |
 | `cycle-2-solution` | Cycle 2 risk engine |
 | `cycle-3-solution` | Cycle 3 dispatch operator |
 
@@ -57,14 +56,14 @@ Do not start the workshop there.
 
 ---
 
-## Quickstart — Cycle 1
+## Quickstart — Cycle 1 Solution
 
 Run from the repository root.
 
 ### Windows PowerShell
 
 ```powershell
-git checkout cycle-1
+git checkout cycle-1-solution
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -75,7 +74,7 @@ streamlit run app_cycle1.py
 ### macOS / Linux
 
 ```bash
-git checkout cycle-1
+git checkout cycle-1-solution
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -115,16 +114,15 @@ Later data stages are introduced on `cycle-2` and `cycle-3`.
 
 ---
 
-## Cycle 1: Baseline & Data Preparation
+## Cycle 1: Solution Review
 
-**Goal:** Understand the baseline, then prepare interleaved raw packets for
-display.
+**Goal:** Understand how the baseline feed is prepared for display.
 
 **The trap:** The raw feed mixes multiple readings per truck and includes
-corrupt packets. The baseline dispatcher view looks busy but does not tell you
-which truck state is current.
+corrupt packets. The starter branch looks busy but does not tell you which truck
+state is current.
 
-**Execution target:** Implement `prep.build_fleet_snapshot()` in `prep.py`:
+**Completed implementation:** `prep.build_fleet_snapshot()` in `prep.py`:
 
 1. Validate each raw row with `TelemetryReading`.
 2. Skip corrupt rows.
@@ -134,37 +132,38 @@ which truck state is current.
 6. Compute silent minutes with `calculate_minutes_silent`.
 7. Return rows sorted by `truck_id`.
 
-Follow `docs/plans/cycle1.md` and open `docs/architecture/cycle1.drawio`.
+Study `docs/plans/cycle1.md` and open `docs/architecture/cycle1.drawio` to trace
+what was implemented.
 
 **Demo checklist:**
 
 - App launches with `streamlit run app_cycle1.py`.
 - Raw feed shows multiple readings per truck, not one row per truck.
 - Raw map shows all raw points and looks noisy.
-- Prepared panel shows exactly 10 trucks after implementation.
+- Prepared panel shows exactly 10 trucks.
 - Every prepared row has 4 readings.
 - `TRUCK-44` is `7.4 °C`, `15%`, `OFFLINE_LOST_SIGNAL`, about 35 minutes silent.
 - `TRUCK-99` is `19.5 °C` and `STANDARD`.
 - `TRUCK-X1` and `TRUCK-X2` are excluded from the prepared snapshot.
 - No duplicate truck rows.
 
-**Reference solution:** `cycle-1-solution`.
+**Starter:** `cycle-1`.
 
-**Next:** after the checklist passes, check out `cycle-2` for the risk-layer
-starter. Its answer is on `cycle-2-solution`.
+**Next starter:** `cycle-2` for the risk layer. Its answer is on
+`cycle-2-solution`.
 
 ---
 
 ## Future Scaffolds on This Branch
 
-These files exist as connection points for later cycles and are not implemented
-in Cycle 1:
+These files exist as connection points for later cycles and are not part of the
+Cycle 1 answer:
 
 - `engine.py` — Cycle 2 risk-engine TODO.
 - `TriageAlert` and `DispatchOrder` — future Pydantic contracts in `models.py`.
 - Dashed `engine` and `dispatch` layers in `docs/architecture/cycle1.drawio`.
 
-Do not implement or call them in Cycle 1.
+They are deliberately untouched on this solution branch.
 
 ---
 
@@ -173,7 +172,7 @@ Do not implement or call them in Cycle 1.
 ```text
 workshop-Thun/
 ├── app_cycle1.py             # Cycle 1 entry point
-├── prep.py                   # CURRENT TARGET: build_fleet_snapshot()
+├── prep.py                   # COMPLETE: build_fleet_snapshot()
 ├── engine.py                 # Future scaffold: Cycle 2 risk engine TODO
 ├── repository.py             # SQLite access layer
 ├── models.py                 # Contracts, including future alert/dispatch types
@@ -194,12 +193,13 @@ workshop-Thun/
 ## Guardrails
 
 - **Architecture first:** Read the cycle plan and layout before prompting.
-- **Implement only Cycle 1:** Do not jump ahead to risk or dispatch.
+- **This is a solution branch:** Return to `cycle-1` for the exercise.
+- **Do not jump ahead:** This branch stops at telemetry preparation.
 - **Contracts before syntax:** Reference `models.py` when asking for changes.
 - **150-line cap:** Split seed data, UI helpers, or domain logic instead of
   growing monolithic files.
-- **Compare by branch:** After the checklist passes, compare with
-  `cycle-1-solution`. Do not import code from another branch.
+- **Compare by branch:** Use `git diff cycle-1..cycle-1-solution` to review the
+  answer. Do not import code from another branch.
 - **No automated tests:** Verify with the manual demo checklist and architecture
   review. Do not add pytest or CI.
 
@@ -226,7 +226,7 @@ workshop-Thun/
 | PowerShell blocks activation | Run `Set-ExecutionPolicy -Scope Process Bypass`, then activate again. |
 | Dashboard shows stale times | Rerun `python init_db.py` and refresh the page. |
 | Streamlit command not found | Activate the virtual environment or run `python -m streamlit run app_cycle1.py`. |
-| Prepared panel shows the target placeholder | Implement `prep.build_fleet_snapshot()`; compare with `cycle-1-solution` afterward. |
+| Prepared panel is empty | Rerun `python init_db.py` and refresh the page. |
 
 The slide-by-slide workshop outline is in `docs/slides.md`. Render it with Marp
 for 16:9 output, or read it as plain Markdown.

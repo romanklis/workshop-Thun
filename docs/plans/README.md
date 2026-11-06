@@ -1,5 +1,8 @@
 # Plan → Architecture → Execute
 
+> **Solution branch:** Cycle 1 is complete. Return to `cycle-1` for the
+> exercise, then compare the implementations.
+
 This workshop is organized as repeated, reviewable cycles. Each cycle starts
 with a written plan and an architecture layout, then executes only that slice.
 Verification is a manual demo checklist; the repository intentionally contains
@@ -26,7 +29,7 @@ no automated test suite.
 
 | Branch | Solved exercise |
 |---|---|
-| `cycle-1-solution` | Cycle 1 telemetry preparation |
+| `cycle-1-solution` | **This branch** — Cycle 1 telemetry preparation |
 | `cycle-2-solution` | Cycle 2 risk engine |
 | `cycle-3-solution` | Cycle 3 dispatch operator |
 
@@ -43,7 +46,7 @@ Later stages are introduced on `cycle-2` and `cycle-3`.
 
 ## Plans
 
-- `cycle1.md` — current baseline cockpit and data-preparation plan.
+- `cycle1.md` — completed baseline cockpit and data-preparation plan.
 
 Later plans are introduced on `cycle-2` and `cycle-3`.
 
