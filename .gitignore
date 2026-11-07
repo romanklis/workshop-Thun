@@ -3,8 +3,10 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
-data/*.db-journal
-data/*.db-wal
-data/*.db-shm
-.DS_Store
+.streamlit/
 .kilo
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+.DS_Store
