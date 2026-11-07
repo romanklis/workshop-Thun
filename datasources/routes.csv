@@ -1,0 +1,5 @@
+route_id,origin_hub,dest_hub,corridor,standard_duration_min,distance_km
+R-001,HUB-BASEL,HUB-OLTEN,A2/A1,55,62.0
+R-002,HUB-OLTEN,HUB-BERN,A1,45,52.0
+R-003,HUB-ZURICH,HUB-BASEL,A1/A3,70,86.0
+R-004,HUB-BERN,HUB-ZURICH,A1,80,112.0

@@ -1,29 +1,13 @@
-"""Pydantic contracts shared by the TransAlpine fleet platform."""
+"""Core contracts for the reference TransAlpine solution."""
 
 from __future__ import annotations
 
-from typing import Literal
-
 from pydantic import BaseModel, Field
-
-CargoType = Literal["PHARMA", "FRESH_FOOD", "STANDARD"]
-RiskLevel = Literal["LOW", "MEDIUM", "CRITICAL"]
-
-
-class Hub(BaseModel):
-    """A fixed logistics hub in the Swiss network."""
-
-    hub_id: str
-    name: str
-    lat: float
-    lon: float
 
 
 class TelemetryReading(BaseModel):
-    """A single validated IoT sensor packet."""
-
     truck_id: str
-    cargo_type: CargoType
+    cargo_type: str
     timestamp: str
     lat: float
     lon: float
@@ -32,12 +16,10 @@ class TelemetryReading(BaseModel):
     signal_status: str
 
 
-class FleetSnapshotRow(BaseModel):
-    """One prepared, latest-state row per truck for the cockpit."""
-
+class FleetSnapshot(BaseModel):
     truck_id: str
-    cargo_type: CargoType
-    latest_timestamp: str
+    cargo_type: str
+    timestamp: str
     lat: float
     lon: float
     temp_c: float
@@ -45,24 +27,32 @@ class FleetSnapshotRow(BaseModel):
     signal_status: str
     readings_count: int
     minutes_silent: float
+    home_hub: str
+    shipment_id: str
+    customer_id: str
+    cargo_value_chf: float
+    priority: str
+    temp_max_c: float
+    sla_deadline: str
+    sla_penalty_chf: float
 
 
 class TriageAlert(BaseModel):
-    """Risk assessment produced for one truck."""
-
     truck_id: str
-    cargo_type: CargoType
-    risk_level: RiskLevel
+    risk_level: str
     reason: str
+    evidence: list[str]
     minutes_silent: float
-    recommended_action: str
+    cargo_value_chf: float
+    priority: str
+    score: float
 
 
 class DispatchOrder(BaseModel):
-    """A verified remediation order produced by the autonomous operator."""
-
     truck_id: str
     action: str
     target_hub: str
-    estimated_margin_min: float
+    runway_min: float
+    travel_min: float
+    margin_min: float
     executive_summary: str

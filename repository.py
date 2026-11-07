@@ -1,77 +1,55 @@
-"""SQLite access layer for the TransAlpine fleet cockpit."""
+"""Load the workshop CSV datasources into one data bundle."""
 
 from __future__ import annotations
 
-import sqlite3
-from contextlib import closing
 from pathlib import Path
 
-from models import Hub
+import pandas as pd
 
-DEFAULT_DB_PATH = Path(__file__).resolve().parent / "data" / "logistics.db"
+DATA_DIR = Path(__file__).resolve().parent / "datasources"
+OPTIONAL = {
+    "driver_shifts": "driver_shifts.csv",
+    "sensor_events": "sensor_events.csv",
+    "tunnel_outages": "tunnel_outages.csv",
+    "maintenance_logs": "maintenance_logs.csv",
+    "weather": "weather.csv",
+    "border_queues": "border_customs_queue.csv",
+    "fuel": "fuel_charging_telemetry.csv",
+    "assignments": "route_assignments.csv",
+    "depots": "depot_capacity.csv",
+    "traffic": "traffic_conditions.csv",
+}
 
 
-class FleetRepository:
-    """Read fleet data without leaking SQL into the UI or domain layer."""
+def _read(name: str) -> pd.DataFrame | None:
+    path = DATA_DIR / name
+    if not path.exists():
+        return None
+    return pd.read_csv(path)
 
-    def __init__(self, db_path: str | Path = DEFAULT_DB_PATH) -> None:
-        self.db_path = Path(db_path)
 
-    def _connect(self) -> sqlite3.Connection:
-        if not self.db_path.exists():
-            raise FileNotFoundError(
-                f"Database not found at {self.db_path}. "
-                "Run `python init_db.py` first."
-            )
-        connection = sqlite3.connect(self.db_path)
-        connection.row_factory = sqlite3.Row
-        return connection
+def load_bundle() -> tuple[dict[str, pd.DataFrame], pd.Timestamp]:
+    """Return all available source tables and the scenario clock."""
 
-    def _fetch_all(
-        self,
-        query: str,
-        params: tuple = (),
-    ) -> list[dict]:
-        with closing(self._connect()) as connection:
-            rows = connection.execute(query, params).fetchall()
-        return [dict(row) for row in rows]
+    meta = _read("dataset_metadata.csv")
+    if meta is None or meta.empty:
+        raise FileNotFoundError("datasources/dataset_metadata.csv is required")
+    scenario = pd.to_datetime(meta.iloc[0]["scenario_now"], utc=True)
 
-    def get_all_hubs(self) -> list[Hub]:
-        """Return every seeded hub as a validated contract."""
+    bundle: dict[str, pd.DataFrame | None] = {
+        "hubs": _read("hubs.csv"),
+        "routes": _read("routes.csv"),
+        "trucks": _read("trucks.csv"),
+        "telemetry": _read("telemetry.csv"),
+        "cargo": _read("cargo_manifest.csv"),
+        "slas": _read("customer_slas.csv"),
+    }
+    for key, filename in OPTIONAL.items():
+        bundle[key] = _read(filename)
 
-        rows = self._fetch_all(
-            "SELECT hub_id, name, lat, lon FROM hubs ORDER BY name"
-        )
-        return [Hub.model_validate(row) for row in rows]
+    required = ("hubs", "routes", "trucks", "telemetry", "cargo", "slas")
+    missing = [name for name in required if bundle[name] is None]
+    if missing:
+        raise FileNotFoundError(f"Missing required datasources: {missing}")
 
-    def get_all_telemetry(self) -> list[dict]:
-        """Return raw telemetry in arrival order, including corrupt packets."""
-
-        return self._fetch_all(
-            "SELECT * FROM sensor_telemetry ORDER BY reading_id ASC"
-        )
-
-    def get_telemetry_for_truck(self, truck_id: str) -> list[dict]:
-        """Return a truck's readings in chronological order."""
-
-        return self._fetch_all(
-            """
-            SELECT *
-            FROM sensor_telemetry
-            WHERE truck_id = ?
-            ORDER BY timestamp ASC, reading_id ASC
-            """,
-            (truck_id,),
-        )
-
-    def get_all_routes(self) -> list[dict]:
-        """Return the seeded route network used by the cockpit KPI."""
-
-        return self._fetch_all(
-            """
-            SELECT route_id, origin_hub, dest_hub, corridor,
-                   standard_duration_min
-            FROM routes
-            ORDER BY route_id
-            """
-        )
+    return {key: value for key, value in bundle.items() if value is not None}, scenario
