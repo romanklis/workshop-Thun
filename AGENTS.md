@@ -1,27 +1,24 @@
 # Agent Operating Rules
 
-This repository is a workshop scaffold for organized, plan-driven development.
+This repository is a workshop challenge, not a solution.
 
 ## Before coding
 
-1. Read `docs/plans/README.md`.
-2. Read the current cycle plan in `docs/plans/`.
-3. Open the matching architecture layout in `docs/architecture/`.
-4. Identify the exact data stage and connection points before changing code.
+1. Read `README.md` completely.
+2. Inspect every file in `datasources/`.
+3. Propose the data contracts, architecture, and execution plan to the human.
+4. Get approval before writing application code.
 
 ## During execution
 
-- Implement only the planned slice. Do not jump ahead to a later cycle.
-- Keep every Python file under 150 lines; split by responsibility when needed.
-- Keep data contracts in `models.py` and deterministic math in `tools.py`.
-- Preserve the boundaries: repository → preparation → domain logic → UI.
-- Implement the current branch's TODO in the root module. Do not import code from another branch.
-- Compare with the matching `cycle-N-solution` branch only after the demo checklist passes.
-- Do not add automated tests, pytest configuration, or CI workflows.
+- Build the smallest vertical slice that answers the demo questions.
+- Keep every Python file under 150 lines.
+- Separate source loading, preparation, domain logic, tools, and UI.
+- Do not import code from a solution branch.
+- Do not add automated tests, pytest configuration, or CI.
 
 ## Before finishing
 
-- Run `python init_db.py` if the data stage changed.
-- Launch the current cycle app with Streamlit.
-- Complete the plan's manual review checklist.
-- Report architecture drift or follow-up work in the plan document.
+- Run the app against the provided datasources.
+- Answer the README demo questions with evidence from the data.
+- Record assumptions, rejected records, and open questions.

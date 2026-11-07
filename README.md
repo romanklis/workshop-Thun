@@ -1,243 +1,141 @@
-# TransAlpine Logistics: Cold-Chain Fleet Modernization
+# TransAlpine Logistics — Cycle 3 Challenge
 
-### Lean-AI-Dev Workshop | Plan → Architecture → Execute
+### Autonomous Dispatch Operator | Plan → Architecture → Execute
 
 > **CYCLE 3 STARTER →** `git checkout cycle-3`
 >
 > If you have not completed the earlier cycles, start on `cycle-1`. The
-> completed Cycle 3 answer is on `cycle-3-solution`.
+> completed Cycle 3 reference answer is on `cycle-3-solution`.
 
-Welcome to the **TransAlpine Logistics** engineering strike team. Today you are
-not a code typist; you are the **system architect and reviewer in chief**. The
-workshop teaches organized AI-assisted development: write a plan, draw the
-architecture, execute the planned slice, review the running app, then re-plan.
+## Your Challenge
 
-This branch is the **Cycle 3 starter**. Telemetry preparation and the risk
-engine are complete; the dispatch operator is the current exercise.
+The risk view tells the dispatcher what is going wrong. Now they need a decision:
+**can the cargo still reach a safe destination, and where should it go?**
 
----
+New dispatch feeds have arrived: route assignments, depot capacity, traffic
+conditions, and expanded driver/fuel context. Build an autonomous operator that
+turns a critical alert into an auditable recommendation. Decide whether cargo can
+reach a destination before spoiling, account for depot capacity, traffic, border
+delays, driver hours, fuel range, customer SLA, and cargo value.
 
-## The Business Context
+You decide the architecture, data contracts, tool boundaries, and UI. Use AI to
+plan and build, but every number in the recommendation must be traceable to data
+and deterministic code.
 
-TransAlpine Logistics manages cold-chain pharmaceutical and food transport
-across the Swiss A1/A2 motorway network (Basel, Olten, Bern, Zurich).
+## What You Must Deliver
 
-- **The problem:** Pharma clients require certified real-time temperature
-  tracking for sensitive medications and vaccines, with a maximum allowed limit
-  of **+8.0 °C**.
-- **The complication:** Swiss tunnels and topography create cellular blind
-  spots. A silent truck with a failing compressor can spoil high-value cargo
-  before anyone notices.
-- **The mission:** Move from spreadsheets to a digital command cockpit with a
-  risk layer and a deterministic dispatch operator.
+- A runnable application that reads directly from `datasources/`.
+- A prioritized risk view plus an operator that produces dispatch recommendations.
+- A decision trail showing runway, travel, margin, capacity, driver, and fuel.
+- A one-page plan and an architecture diagram created during the workshop.
+- Answers to the demo questions below, backed by data.
 
----
+## The Business Case
+
+TransAlpine moves pharmaceuticals, fresh food, and dry goods across the Swiss
+A1/A2 network. Pharma cargo must stay below **+8.0 °C**. Tunnels, congestion,
+border queues, driver limits, and depot capacity can turn a safe reroute into a
+failed one. The dispatcher needs a recommendation with evidence, not a chatbot
+guess.
+
+## Data Sources
+
+All files are CSV. Timestamps are ISO 8601. The scenario clock is fixed in
+`dataset_metadata.csv`; do not use the wall clock for silence or runway.
+
+| File | Rows | What it contains | Known issues |
+|---|---:|---|---|
+| `dataset_metadata.csv` | 1 | Scenario time and stage | Use this as “now” |
+| `hubs.csv` | 4 | Hub coordinates and capacity | — |
+| `routes.csv` | 10 | Corridor, duration, distance | — |
+| `trucks.csv` | 16 | Truck, cargo, carrier, trailer, home hub | — |
+| `telemetry.csv` | 163 | Raw sensor packets | Duplicate IDs, out-of-order timestamps, corrupt values |
+| `cargo_manifest.csv` | 17 | Shipment, product, value, temperature limits, priority | Inconsistent cargo codes, missing batch ID, duplicate shipment |
+| `customer_slas.csv` | 10 | Customer max temperature, deadline, penalty | Missing penalty and max temperature |
+| `driver_shifts.csv` | 19 | Driver hours and contact status | Overlapping shifts, missing end time, negative hours |
+| `sensor_events.csv` | 45 | Door, compressor, battery, signal events | Duplicate IDs, unknown event type |
+| `tunnel_outages.csv` | 15 | Outage windows and signal loss | Overlapping outages, stale open record |
+| `maintenance_logs.csv` | 20 | Work orders, components, findings | Inconsistent component names |
+| `weather.csv` | 60 | Hub/road temperature and conditions | Missing station, extreme outlier |
+| `border_customs_queue.csv` | 20 | Border waits and queues | Negative wait, unknown crossing |
+| `fuel_charging_telemetry.csv` | 60 | Fuel/charge level, range, consumption | Negative range, missing fuel, duplicate |
+| `route_assignments.csv` | 15 | Truck, route, destination, planned arrival, progress | Missing assignment, invalid route, past arrival |
+| `depot_capacity.csv` | 4 | Dock/reefer capacity and occupancy | Zero availability, stale capacity |
+| `traffic_conditions.csv` | 20 | Segment speed, delay, incident | Duplicate segment, negative speed/delay |
+
+Key storylines:
+
+- `TRUCK-44` is critical near the Olten corridor with a high-value pharma load.
+- `TRUCK-58` is critical and intentionally has **no route assignment**.
+- `HUB-ZURICH` has no available reefer slots.
+- Border delays and a tunnel outage complicate travel-time assumptions.
+- Some driver and fuel records conflict.
+
+## Constraints
+
+- Pharma limit: **+8.0 °C**.
+- A feasible reroute needs runway > travel, depot reefer capacity, driver time,
+  and sufficient fuel range.
+- Customer deadlines and penalties differ; rank by business impact.
+- The scenario clock is frozen; reports must be reproducible.
+- Do not let an LLM do arithmetic in prose; use deterministic tools.
+- Keep the solution runnable with the provided Python stack.
+
+## Demo Questions
+
+1. Where should the critical truck go, and can it arrive before spoilage?
+2. Is the target depot feasible for this cargo and capacity?
+3. What are the runway, travel time, and margin assumptions?
+4. Why is the recommendation safe and auditable?
+5. What happens when the assignment is missing or a depot is full?
+
+## Open Design Questions
+
+- Which calculations belong in deterministic tools?
+- How do you model travel time with traffic, border, and tunnel data?
+- How do you handle missing or conflicting assignments?
+- How do you rank a long reroute against staying on plan?
+- What does the dispatcher need to see to trust the recommendation?
 
 ## Branch Map
 
-### Cycle starters
+### Challenge starters
 
-| Branch | Role | Data stage | App |
-|---|---|---|---|
-| `cycle-1` | Cycle 1 starter | Stage 1 | `app_cycle1.py` |
-| `main` | Default landing branch; mirrors `cycle-1` | Stage 1 | `app_cycle1.py` |
-| `cycle-2` | Cycle 2 starter | Stage 2 | `app_cycle2.py` |
-| `cycle-3` | **Current Cycle 3 starter** | Stage 3 | `app_cycle3.py` |
+| Branch | Focus | Data stage |
+|---|---|---|
+| `cycle-1` | Baseline challenge | Stage 1 |
+| `main` | Default mirror of `cycle-1` | Stage 1 |
+| `cycle-2` | Risk-layer challenge | Stage 2 |
+| `cycle-3` | **Current dispatch-operator challenge** | Stage 3 |
 
 ### Reference solutions
 
-| Branch | Solved exercise |
+| Branch | Completed answer |
 |---|---|
-| `cycle-1-solution` | Cycle 1 telemetry preparation |
-| `cycle-2-solution` | Cycle 2 risk engine |
-| `cycle-3-solution` | Cycle 3 dispatch operator |
+| `cycle-1-solution` | Baseline cockpit |
+| `cycle-2-solution` | Risk layer |
+| `cycle-3-solution` | Dispatch operator |
 
-Use a solution branch only to compare after the matching demo checklist passes.
-Do not start the workshop there.
+Use a solution branch only after your demo checklist passes.
 
----
-
-## Quickstart — Cycle 3
-
-Run from the repository root.
-
-### Windows PowerShell
-
-```powershell
-git checkout cycle-3
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python init_db.py
-streamlit run app_cycle3.py
-```
-
-### macOS / Linux
+## Setup
 
 ```bash
-git checkout cycle-3
-python3 -m venv .venv
-source .venv/bin/activate
+python -m venv .venv
+# Windows: .\.venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements.txt
-python init_db.py
-streamlit run app_cycle3.py
 ```
 
-`init_db.py` is repeatable. Rerun it before each demo to refresh the relative
-timestamps; otherwise the seeded trucks will look stale.
+There is no application yet. You build it.
 
----
+Suggested stack: Python, pandas, Pydantic, Streamlit.
 
-## Plan → Architecture → Execute
+## How to Work with AI
 
-Each cycle uses the same loop:
+1. **Plan** — define the decision questions, data contracts, and demo checklist.
+2. **Architecture** — draw the data flow, evidence boundaries, and tool boundaries.
+3. **Execute** — build the smallest vertical slice that produces an auditable order.
+4. **Review** — challenge every number and assumption, then re-plan.
 
-1. **Plan** — read `docs/plans/cycle3.md`.
-2. **Architecture** — open `docs/architecture/cycle3.drawio` and trace the flow.
-3. **Execute** — supervise the coding agent to implement only the planned slice.
-4. **Review** — run the app, complete the demo checklist, and inspect drift.
-5. **Re-plan** — record gaps before moving to the next cycle.
-
-`AGENTS.md` contains the operating rules for the coding agent.
-
----
-
-## Data Stages
-
-| Stage | Routes | Valid trucks | Readings per truck | Corrupt packets | Total packets | Assignments |
-|---|---:|---:|---:|---:|---:|---:|
-| 1 | 4 | 10 | 4 | 2 | 42 | 0 |
-| 2 | 8 | 14 | 8 | 3 | 115 | 0 |
-| 3 | 10 | 16 | 10 | 3 | 163 | 15 |
-
-Stages 1 and 2 are completed history. Stage 3 is the current branch data and
-adds route assignments for dispatch.
-
----
-
-## Cycle 1 — Completed
-
-`prep.build_fleet_snapshot()` validates packets, rejects corrupt rows, groups by
-truck, selects the latest reading, counts readings, and computes silent minutes.
-
-Reference solution: `cycle-1-solution`.
-
----
-
-## Cycle 2 — Completed
-
-`engine.assess_fleet_risk()` applies the PHARMA, FRESH_FOOD, and STANDARD risk
-rules and returns one alert per valid truck, including LOW alerts.
-
-Reference solution: `cycle-2-solution`.
-
----
-
-## Cycle 3 — Current Exercise: Autonomous Operator
-
-**Goal:** Turn critical risk alerts into verified dispatch orders with an
-auditable decision trail.
-
-**Execution target:** Implement `dispatch.evaluate_incident()` and
-`dispatch.build_dispatch_order()` in `dispatch.py`.
-
-**Operator formula:**
-
-1. Take the latest prepared row and the truck's valid telemetry history.
-2. Compute the temperature rate from the last two valid readings.
-3. Compute runway minutes to `8.0 °C`.
-4. Rank depots with `find_emergency_depots`.
-5. Compute travel minutes to the nearest depot.
-6. Compute margin = runway − travel.
-7. Choose `DIVERT_TO_NEAREST_DEPOT` when margin is positive, otherwise
-   `EMERGENCY_DIVERT`.
-8. Include the assignment summary; use `UNASSIGNED` when no assignment exists.
-
-Follow `docs/plans/cycle3.md` and open `docs/architecture/cycle3.drawio`.
-
-**Demo checklist:**
-
-- App launches with `streamlit run app_cycle3.py`.
-- Prepared snapshot shows 16 valid trucks.
-- Critical alerts are visible before dispatch.
-- Clicking **Execute Emergency Triage** produces `DispatchOrder` rows after
-  implementation.
-- `TRUCK-44` routes to `HUB-OLTEN` with a positive margin.
-- `TRUCK-58` is critical but unassigned; its summary shows `UNASSIGNED`.
-- Standard cargo does not produce dispatch orders.
-- The decision trail shows temperature rate, runway, nearest depot, travel,
-  margin, and action.
-
-**Reference solution:** branch `cycle-3-solution`.
-
----
-
-## Repository Map
-
-```text
-workshop-Thun/
-├── app_cycle1.py             # Completed Cycle 1 cockpit
-├── app_cycle2.py             # Completed Cycle 2 cockpit
-├── app_cycle3.py             # CURRENT: Cycle 3 cockpit
-├── prep.py                   # COMPLETE: telemetry preparation
-├── engine.py                 # COMPLETE: risk engine
-├── dispatch.py               # CURRENT TARGET: dispatch operator
-├── repository.py             # SQLite access layer
-├── models.py                 # Contracts, including TruckAssignment
-├── tools.py                  # Deterministic calculations
-├── ui.py                     # Shared Streamlit rendering
-├── seed_stage1.py            # Stage 1 seed history
-├── seed_stage2.py            # Stage 2 seed history
-├── seed_stage3.py            # Stage 3 seed data and assignments
-├── init_db.py                # Rebuilds the Stage 3 database
-├── docs/plans/README.md      # Plan-execute workflow
-├── docs/plans/cycle1.md      # Completed Cycle 1 plan
-├── docs/plans/cycle2.md      # Completed Cycle 2 plan
-├── docs/plans/cycle3.md      # Current Cycle 3 plan
-├── docs/architecture/        # All three Draw.io layouts
-├── docs/slides.md            # Final workshop deck
-├── AGENTS.md                 # Agent operating rules
-└── data/logistics.db         # Committed Stage 3 snapshot
-```
-
----
-
-## Guardrails
-
-- **Architecture first:** Read the Cycle 3 plan and layout before prompting.
-- **Implement only Cycle 3:** Do not redo preparation or risk logic.
-- **Deterministic math:** All numbers come from `tools.py`; no LLM arithmetic.
-- **150-line cap:** Split seed data, UI helpers, or domain logic instead of
-  growing monolithic files.
-- **Compare by branch:** After the checklist passes, compare with
-  `cycle-3-solution`. Do not import code from another branch.
-- **No automated tests:** Verify with the manual demo checklist and architecture
-  review. Do not add pytest or CI.
-
----
-
-## Demo Data Notes
-
-- **TRUCK-44** (`PHARMA`): rises to `7.4 °C`, battery `15%`, last signal
-  `OFFLINE_LOST_SIGNAL` about 35 minutes ago near Egerkingen.
-- **TRUCK-58** (`PHARMA`): about `6.9 °C`, about 25 minutes silent, and
-  intentionally unassigned.
-- **TRUCK-21** (`FRESH_FOOD`): warming to about `4.9 °C`.
-- **TRUCK-99** (`STANDARD`): `19.5 °C`; warm is normal for dry goods.
-- Stage 3 adds `TRUCK-121`, `TRUCK-131`, and 15 route assignments.
-- **TRUCK-X1 / TRUCK-X2 / TRUCK-X3**: corrupt packets rejected by Pydantic.
-
----
-
-## Troubleshooting
-
-| Symptom | Fix |
-|---|---|
-| `Database not found` | Run `python init_db.py` from the repository root. |
-| PowerShell blocks activation | Run `Set-ExecutionPolicy -Scope Process Bypass`, then activate again. |
-| Dashboard shows stale times | Rerun `python init_db.py` and refresh the page. |
-| Streamlit command not found | Activate the virtual environment or run `python -m streamlit run app_cycle3.py`. |
-| Emergency Operator shows the target placeholder | Implement `dispatch.evaluate_incident()`; compare with `cycle-3-solution` afterward. |
-
-The slide-by-slide workshop outline is in `docs/slides.md`. Render it with Marp
-for 16:9 output, or read it as plain Markdown.
+Create your own plan and architecture; do not copy a prewritten module list.
