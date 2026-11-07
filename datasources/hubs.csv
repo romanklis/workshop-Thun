@@ -1,0 +1,5 @@
+hub_id,name,lat,lon,capacity,reefer_capacity
+HUB-BASEL,Basel EuroAirport,47.5596,7.5886,120,18
+HUB-OLTEN,Olten Central Depot,47.3499,7.9033,80,10
+HUB-ZURICH,Zurich North,47.3769,8.5417,150,22
+HUB-BERN,Bern Wankdorf,46.948,7.4474,90,12
